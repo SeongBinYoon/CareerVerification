@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 # 작성자: 컴퓨터학부 윤성빈
 #
 # Chrome WebDriver의 경로 / commit 및 push 시에는 비워두고 진행
-webdriver_path = 'C:/Users/yoons/OneDrive/바탕 화면/학부/capstone/VerifCarr/chromedriver.exe'
+webdriver_path = ''
 
 # Chrome WebDriver 서비스 설정
 service = webdriver.chrome.service.Service(executable_path=webdriver_path)
