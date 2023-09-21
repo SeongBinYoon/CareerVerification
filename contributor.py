@@ -1,4 +1,4 @@
-from selenium import webdriver # 동적페이지(js등)를 처리하기 위한 크롤링 라이브러리
+from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 from selenium.webdriver.common.by import By
@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 #
 # 작성자: 컴퓨터학부 윤성빈
 #
+
 # Chrome WebDriver의 경로 / commit 및 push 시에는 비워두고 진행
 webdriver_path = ''
 
@@ -40,13 +41,14 @@ time.sleep(2) # 결과값 확인 -> 버튼이 클릭되는지 확인
 # 
 # 작성자: 컴퓨터학부 안도형
 #
+
 # 지원자의 github 아이디 찾기
 name = "SeongBinYoon"
 contributor_names = driver.find_elements(By.CSS_SELECTOR, ".text-normal")
 
 found = False
 for i in contributor_names:
-    names = i.get_attribute("outerHTML") #이 코드(outerHTML)은 해당 클래스의 바깥쪽 HTML을 가져다줌
+    names = i.get_attribute("outerHTML") # 해당 클래스의 바깥쪽 HTML을 가져다줌
     if name in names:
         found = True
         break

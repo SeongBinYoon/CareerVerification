@@ -1,4 +1,4 @@
-from selenium import webdriver #동적페이지(js등)를 처리하기 위한 크롤링 라이브러리
+from selenium import webdriver # 동적페이지(js등)를 처리하기 위한 크롤링 라이브러리
 from bs4 import BeautifulSoup
 import time
 
@@ -16,19 +16,19 @@ url = 'http://kportal.kipris.or.kr/kportal/search/total_search.do' # 카프리�
 
 # 웹 페이지 열기
 driver.get(url)
-# time.sleep(2) #결과값확인 > 창이 뜨는지 확인하기 위함
+# time.sleep(2) #결과값확인 -> 창이 뜨는지 확인하기 위함
 input_xpath = '//*[@id="searchKeyword"]'
 
 #검색창에 텍스트 입력
-input_element = driver.find_element("xpath", input_xpath) #셀레니움 함수변경으로 인해 find_element 사용 -> 이전 버전 find_element_by_xpath
-input_element.send_keys("달달웍스")
-time.sleep(2) #결과값 확인 > 텍스트가 입력되는지 확인
+input_element = driver.find_element("xpath", input_xpath) # 셀레니움 함수변경으로 인해 find_element 사용 -> 이전 버전 find_element_by_xpath
+input_element.send_keys("")
+time.sleep(2) #결과값 확인 -> 텍스트가 입력되는지 확인
 
 #버튼 클릭
 button_xpath = '//*[@id="initSearchResultPageFrmNewBookMark"]/img'
 button_element = driver.find_element("xpath", button_xpath)
 button_element.click()
-time.sleep(2) #결과값 확인 > 텍스트가 입력되는지 확인
+time.sleep(2) #결과값 확인 -> 텍스트가 입력되는지 확인
 
 # 웹 페이지의 HTML 내용 가져오기
 html_content = driver.page_source

@@ -1,4 +1,4 @@
-from selenium import webdriver #동적페이지(js등)를 처리하기 위한 크롤링 라이브러리
+from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
@@ -26,9 +26,8 @@ driver.get(url)
 # 검색창에 텍스트 입력
 input_xpath = '//*[@id="gb"]/div[2]/div[2]/div[2]/form/div[1]/div/div/div/div/div[1]/input[2]'
 input_element = driver.find_element("xpath", input_xpath) #셀레니움 함수 변경으로 인해 find_element 사용 -> 이전 버전 find_element_by_xpath
-#input_element.send_keys("최정일 AI 코딩")
 input_element.send_keys("")
-time.sleep(2) # 결과값 확인 > 텍스트가 입력되는지 확인
+time.sleep(2) # 결과값 확인 -> 텍스트가 입력되는지 확인
 
 # 엔터키 입력
 input_element.send_keys(Keys.RETURN)
@@ -39,12 +38,12 @@ for i in range(1,11):
     article_xpath = f'//*[@id="yDmH0d"]/c-wiz[2]/div/div[2]/div[2]/div/main/c-wiz/div[1]/div[{i}]/div/article/a'
     article_element = driver.find_element("xpath", article_xpath)
     article_element.click()
-    time.sleep(4) # 결과값 확인 > 엔터키가 입력되는지 확인
+    time.sleep(4) # 결과값 확인 -> 엔터키가 입력되는지 확인
     
     # 웹 페이지의 HTML 내용 가져오기
     html_content = driver.page_source
 
-    # 웹페이지 html출력확인
+    # 웹페이지 html 출력 확인
     #print(type(html_content))
 
     # html처리를 위해 beautifulsoup 사용
