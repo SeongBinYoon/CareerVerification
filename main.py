@@ -43,14 +43,9 @@ github_url = '' # github 프로젝트 메인 화면
 # 지원자의 github 아이디
 id = ""
 
-##### award 검증 #####
-# gpt api key
-api_key=""
-award_keyword = ""
-award_verification_list = ["",""]
-
-##### project 검증 #####
+##### award 및 project 검증 #####
 news_url = '' # 구글 뉴스
+api_key=""
 proj_keyword = ""
 proj_verification_list = ["", ""]
 
@@ -59,22 +54,19 @@ proj_verification_list = ["", ""]
 
 ##### 함수 호출 #####
 
-# 이력서 추출
+# # 이력서 추출
 ext1.ext_resume(pdf_path1)
 print()
 
-# 경력기술서 추출
+# # 경력기술서 추출
 ext2.ext_career(pdf_path2)
 print()
 
-# 특허 검증 (path, keyword, pinfo_list)
+# # 특허 검증 (path, keyword, pinfo_list)
 pat.patent_ver(webdriver_path, pat_keyword, pat_verification_list)
 
-# contributor 검증
+# # contributor 검증
 con.contributor_ver(webdriver_path, github_url)
 
-# 수상내역 검증
-gpt.award_ver(api_key, award_keyword, award_verification_list)
-
 # 프로젝트 검증
-proj.proj_ver(news_url, proj_keyword, proj_verification_list)
+proj.proj_ver(proj_keyword, proj_verification_list, gpt_api_key=api_key)
