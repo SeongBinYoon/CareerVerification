@@ -3,9 +3,6 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
 
-#
-# 작성자: 컴퓨터학부 윤성빈
-#
 
 # Chrome WebDriver의 경로
 webdriver_path = ''

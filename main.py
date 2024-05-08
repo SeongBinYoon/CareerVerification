@@ -1,5 +1,4 @@
 # main.py
-# 작성자: 윤성빈
 
 ##### import #####
 # 이력서 추출 파일
@@ -68,5 +67,5 @@ pat.patent_ver(webdriver_path, pat_keyword, pat_verification_list)
 # # contributor 검증
 con.contributor_ver(webdriver_path, github_url)
 
-# 프로젝트 검증
+# 프로젝트 및 수상 내역 검증
 proj.proj_ver(proj_keyword, proj_verification_list, gpt_api_key=api_key)

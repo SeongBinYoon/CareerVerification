@@ -3,9 +3,6 @@ from bs4 import BeautifulSoup
 import time
 from selenium.webdriver.common.by import By
 
-#
-# 작성자: 컴퓨터학부 윤성빈
-#
 
 def contributor_ver(webdriver_path, github_url, id):
 
@@ -34,9 +31,6 @@ def contributor_ver(webdriver_path, github_url, id):
             i.click()
     time.sleep(2) # 결과값 확인 -> 버튼이 클릭되는지 확인
 
-    # 
-    # 작성자: 컴퓨터학부 안도형
-    #
 
     contributor_names = driver.find_elements(By.CSS_SELECTOR, ".text-normal")
 

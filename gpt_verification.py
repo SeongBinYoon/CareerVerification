@@ -1,6 +1,6 @@
-# The copyright of this code belongs to Jeong U, Han
 import openai
 
+# proj_ver로 정적 1차 검증 후 동적 2차 검증 함수
 def verify_html_usingGPT(text, verification_list, search_query, api_key):
     # 모델 - GPT 3.5 Turbo 선택
     openai.api_key=api_key

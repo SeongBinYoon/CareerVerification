@@ -5,10 +5,9 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from gpt_verification import verify_html_usingGPT
-#
-# 작성자: ict융합학부 손민지
-#
 
+
+# google 뉴스로부터 html 가져오는 함수
 def get_google_results(base_url, search_query):
         # 검색어에 대한 URL 인코딩
         url = f"https://{base_url}/search?q={search_query}&hl=ko&gl=KR&ceid=KR%3Ako"
@@ -37,7 +36,9 @@ def get_google_results(base_url, search_query):
         else:
             # 요청이 실패한 경우 None 반환
             return None
-        
+
+
+# 가져온 html로부터 정적 1차 검증 함수
 def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
     # 웹 페이지 열기
     # response = requests.get(news_url)
