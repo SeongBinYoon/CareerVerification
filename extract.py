@@ -44,50 +44,49 @@ def ext_resume(pdf_path1):
 
     ##### 학력 사항 #####
     # 학력 추출
-    edu_info1_pat = r'(?<=학 력 사 항)(.*?)(?=경 력 사 항)'
-    edu_info1 = re.search(edu_info1_pat, text).group(1)
-    print(edu_info1)
-
+    edu_info_pat = r'(?<=학 력 사 항)(.*?)(?=경 력 사 항)'
+    edu_info = re.search(edu_info_pat, text).group(1)
+    
+    
     # 학력_기간 추출
     edu_period_pat = r'(\d{4}년 \d{1,2}월~\d{4}년 \d{1,2}월)'
-    edu_period = re.findall(edu_period_pat, edu_info1)
+    edu_period = re.findall(edu_period_pat, edu_info)
     
     # 학력_학교명 추출
-    edu_orgname_pat = r''
-    edu_orgname = re.findall(edu_orgname_pat, text)
+    edu_orgname_pat = r'[가-힣]+고등학교|[가-힣]+대학교|[가-힣]+대학원'
+    edu_orgname = re.findall(edu_orgname_pat, edu_info)
 
     # 학력_기타 추출
-    edu_etc_pat = r''
-    edu_etc = re.findall(edu_etc_pat, text)
+    #edu_etc_pat = r''
+    #edu_etc = re.findall(edu_etc_pat, edu_info)
 
 
     ##### 경력 사항 #####
+    # 경력 추출
+    career_info_pat = r'(?<=경 력 사 항)(.*?)(?=위 기재사항이 사실임을 확인합니다)'
+    career_info = re.search(career_info_pat, text).group(1)
+    
+    
     # 경력_기간 추출
-    career_period_pat = r''
-    career_period = re.findall(career_period_pat, text)
+    career_period_pat = r'(\d{4}년 \d{1,2}월~\d{4}년 \d{1,2}월)'
+    career_period = re.findall(career_period_pat, career_info)
 
     # 경력_회사명 추출
-    career_orgname_pat = r''
-    career_orgname = re.findall(career_orgname_pat, text)
+    career_orgname_pat = r'(?<=월\s)(.*?)(?=\s)'
+    career_orgname = re.findall(career_orgname_pat, career_info)
 
     # 경력_기타 추출
-    career_etc_pat = r''
-    career_etc = re.findall(career_etc_pat, text)
+    #career_etc_pat = r''
+    #career_etc = re.findall(career_etc_pat, career_info)
 
 
     ##### 자기 소개 #####
     # '자기소개' 다음에 오는 문장 찾기
     #pr_career_pat = r'자기소개\s*([가-힣\s]+)'
-    pr_resume_pat = r"자기소개\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=위 기재사항)"
+    #pr_resume_pat = r"자기소개\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=위 기재사항)"
 
     # 자기소개 추출
-    pr_resume = re.findall(pr_resume_pat, text, re.DOTALL)
-    
-    # github 프로젝트 도메인 찾기
-    domain_pat = r'(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?'
-
-    # github 프로젝트 도메인 추출
-    domain = re.search(domain_pat, text)
+    #pr_resume = re.findall(pr_resume_pat, text, re.DOTALL)
 
 
     ##### 결과 출력 #####
@@ -123,42 +122,36 @@ def ext_resume(pdf_path1):
 
     # 결과 출력_학력_학교명
     if edu_orgname:
-        print(edu_orgname[0])
+        print(edu_orgname)
     else:
         print("학력_학교명을 찾을 수 없습니다.")
 
     # 결과 출력_학력_기타
-    if edu_etc:
-        print(edu_etc[0])
-    else:
-        print("학력_기타를 찾을 수 없습니다.")
+    #if edu_etc:
+    #    print(edu_etc)
+    #else:
+    #    print("학력_기타를 찾을 수 없습니다.")
 
     # 결과 출력_경력_기간
     if career_period:
-        print(career_period[0])
+        print(career_period)
     else:
         print("경력_기간을 찾을 수 없습니다.")
 
     # 결과 출력_경력_회사명
     if career_orgname:
-        print(career_orgname[0])
+        print(career_orgname)
     else:
         print("경력_회사명을 찾을 수 없습니다.")
     
     # 결과 출력_경력_기타
-    if career_etc:
-        print(career_etc[0])
-    else:
-        print("경력_기타를 찾을 수 없습니다.")
-        
-    # 결과 출력_github 도메인
-    if domain:
-        print(domain[0])
-    else:
-        print("도메인을 찾을 수 없습니다.")
+    #if career_etc:
+    #    print(career_etc)
+    #else:
+    #    print("경력_기타를 찾을 수 없습니다.")
 
     # 결과 출력_자기소개
-    if pr_resume:
-        print(pr_resume[0])
-    else:
-        print("자기소개를 찾을 수 없습니다.")
+    #if pr_resume:
+    #    print(pr_resume[0])
+    #else:
+    #    print("자기소개를 찾을 수 없습니다.")
