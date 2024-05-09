@@ -36,8 +36,8 @@ def contributor_ver(webdriver_path, github_url, id):
 
     found = False
     for i in contributor_names:
-        names = i.get_attribute("outerHTML") # 해당 클래스의 바깥쪽 HTML을 가져다줌
-        if id in names:
+        ids = i.get_attribute("outerHTML") # 해당 클래스의 바깥쪽 HTML을 가져다줌
+        if id in ids:
             found = True
             break
 

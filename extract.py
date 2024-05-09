@@ -3,6 +3,10 @@ from tika import parser
 
 
 def ext_resume(pdf_path1):
+
+    ##### 전역 변수 #####
+    global names
+
     # pdf 파일 경로 및 텍스트 추출
     text_all = parser.from_file(pdf_path1)['content']
 

@@ -4,6 +4,15 @@ from tika import parser
 
 def ext_career(pdf_path2):
 
+    ##### 전역 변수 #####
+    global patent_name
+    global patent_org
+    global github_id
+    global github_repo
+    global proj_name
+    global proj_org
+
+
     text_all = parser.from_file(pdf_path2)['content']
     text = re.sub(r'[\n(),]', '', text_all)
     #print(text)
@@ -68,7 +77,7 @@ def ext_career(pdf_path2):
     # 프로젝트 내역 추출
     # 프로젝트명 추출
     proj_name_pat = r"프로젝트명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=기관명)"
-    proj_name = re.findall(perf_pat, text)
+    proj_name = re.findall(proj_name_pat, text)
 
     # 기관명 추출
     proj_org_pat = r"기관명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=프로젝트 상세)"
