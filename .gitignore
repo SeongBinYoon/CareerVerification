@@ -254,4 +254,10 @@ $RECYCLE.BIN/
 # Executable files
 *.exe
 
+# uploaded pdfs(resume, career)
+uploads/
+
+# security file
+settings.py
+
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,windows,visualstudiocode

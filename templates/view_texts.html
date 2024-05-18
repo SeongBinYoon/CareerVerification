@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Verification Results</title>
+</head>
+<body>
+    <h1>Verification Results</h1>
+    {% for filename, text in texts %}
+        <h2>{{ filename }}</h2>
+        <p>{{ text }}</p>
+    {% endfor %}
+</body>
+</html>
+
