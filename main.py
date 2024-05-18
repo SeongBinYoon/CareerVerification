@@ -20,7 +20,7 @@ def get_db():
         user='',
         password='',
         db='',
-        charset=''
+        charset='utf8'
     )
     
     return conn
@@ -57,15 +57,12 @@ def show_results():
 def file_list_resume():
     # 쿼리 실행
     conn = get_db()
-    cursor1 = conn.cursor()
-    cursor2 = conn.cursor()
-    cursor1.execute("SELECT applicant_id, resume_pdf_addr, cv_pdf_addr FROM application")
-    #cursor2.execute("SELECT applicant_id, cv_pdf_addr FROM application")
-    files1 = cursor1.fetchall()
-    #files2 = cursor2.fetchall()
+    cursor = conn.cursor()
+    cursor.execute("SELECT applicant_id, resume_pdf_addr, cv_pdf_addr FROM application")
+    files = cursor.fetchall()
     conn.close()
 
-    return render_template('resume_file_list.html', files1=files1)
+    return render_template('resume_file_list.html', files=files)
 
 
 # 이력서, 경력기술서 업로드 버튼
@@ -111,26 +108,30 @@ def upload_resume():
 # 리스트에서 선택한 항목에 대한 file_ids 찾아 해당 addr 받아와 path에 저장, extract, extract2 추출 함수 호출
 @app.route('/action/resume', methods=['POST'])
 def verify_resume():
-    file_ids1 = request.form.getlist('file_ids1')
-    file_ids2 = request.form.getlist('file_ids2')
+
+    global path_resume
+    global path_career
+    file_ids = request.form.getlist('file_ids')
+
     if 'verify' in request.form['action']:
-        if file_ids1 or file_ids2:
-            #return render_template('file_upload.html')
+        if file_ids:
             conn = get_db()
             cursor = conn.cursor()
-            query = "SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = " + file_ids1[0]
+            query = "SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = " + file_ids[0]
             cursor.execute(query)
             # 이력서 = 0번 인덱스, 경력기술서 = 1번 인덱스
             all_paths = cursor.fetchall()
             conn.close()
 
             # 이력서 경로
-            path1 = all_paths[0][0]
+            path_resume = all_paths[0][0]
             # 경력기술서 경로
-            path2 = all_paths[0][1]
+            path_career = all_paths[0][1]
             
-            test(path1)
-            return render_template('view_texts.html', files=all_paths)
+            # 추출 트리거
+            ext_trigger(path_resume, path_career)
+            return render_template('view_texts.html', files=ext1.names)
+            #return render_template('view_texts.html', files=all_paths)
             
         # 추후 오류 메시지 등으로 예외처리 필요
         else: return render_template('view_texts.html')
@@ -139,100 +140,32 @@ def verify_resume():
     else:
         return render_template('home.html')
 
-
-def test(path1):
+# 추출 함수를 호출하는 추출 트리거 함수
+def ext_trigger(path1, path2):
     ext1.ext_resume(path1)
+    ext2.ext_career(path2)
 
+    #return render_template('view_texts.html', files=ext1.names)
 
-
-'''
-# 이력서 리스트 보여줌 -> 삭제 예정
-@app.route('/files/resume')
-def file_list_resume():
-    # 쿼리 실행
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT applicant_id, resume_pdf_addr FROM application")
-    files = cursor.fetchall()
-    conn.close()
-
-    return render_template('resume_file_list.html', files=files)
-
-
-# 경력기술서 리스트 보여줌 -> 삭제 예정
-@app.route('/files/technical')
-def file_list_technical():
-    # 쿼리 실행
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT applicant_id, cv_pdf_addr FROM application")
-    files = cursor.fetchall()
-    conn.close()
-    
-    return render_template('technical_file_list.html', files=files)
-'''
 
 '''
 # 리스트에서 선택한 이력서, 경력기술서 삭제 - 해당 id의 모든 정보 db에서 삭제 (추후 구현)
-@app.route('/action/technical', methods=['POST'])
 @app.route('/action/resume', methods=['POST'])
-def delete_files():
-    file_id = request.form.getlist('file_ids')
-    if file_id:
-            print(file_id)
-            conn = get_db()
-            cursor = conn.cursor()
-            #query = f'DELETE FROM {table} WHERE id IN ({", ".join(["?"]*len(file_id))})'
-            query = f'DELETE FROM application WHERE applicant_id IN ({", ".join(["?"]*len(file_id))})'
-            try:
-                cursor.execute(query, file_id)
-                conn.commit()
-            finally:
-                conn.close()
-    #return redirect(url_for('file_list_technical' if 'technical' in request.path else 'file_list_resume'))
-
-
-# 파일 삭제 및 검증 구현
-@app.route('/action/technical', methods=['POST'])
-@app.route('/action/resume', methods=['POST'])
-def handle_files():
-    """파일 삭제 및 검증 구현"""
-    table = 'technical_files' if 'technical' in request.path else 'resume_files'
+def delete_resume():
     file_ids = request.form.getlist('file_ids')
-    if 'delete' in request.form['action']:
+    if 'verify' in request.form['action']:
         if file_ids:
-            conn = get_db()
-            cursor = conn.cursor()
-            query = f'DELETE FROM {table} WHERE id IN ({", ".join(["?"]*len(file_ids))})'
-            try:
-                cursor.execute(query, file_ids)
-                conn.commit()
-            finally:
-                conn.close()
-        return redirect(url_for('file_list_technical' if 'technical' in request.path else 'file_list_resume'))
-    elif 'verify' in request.form['action']:
-        if file_ids:
-            texts = []
-            for file_id in file_ids:
-                conn = get_db()
-                cursor = conn.cursor()
-                cursor.execute(f"SELECT filename, content FROM {table} WHERE id = ?", (file_id,))
-                file_data = cursor.fetchone()
-                conn.close()
-                if file_data:
-                    file_path = save_temp_file(file_data[0], file_data[1])
-                    result = subprocess.run(['python', 'extract.py', file_path], capture_output=True, text=True)
-                    texts.append((file_data[0], result.stdout))
-                    os.remove(file_path)
-            return render_template('view_texts.html', texts=texts)
-    return 'Invalid request', 400
+            # 체크된 항목 db에서 DELETE
+            pass
+    
+    # 삭제된 결과로 리스트 redirect
+    return redirect(url_for('file_list_resume'))
 '''
 
 
 def init_db():
-    """데이터베이스 초기화"""
-    #with app.app_context():
-    get_db()
+    return get_db()
+
 
 if __name__ == '__main__':
     init_db()
