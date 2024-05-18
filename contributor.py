@@ -3,44 +3,33 @@ from bs4 import BeautifulSoup
 import time
 from selenium.webdriver.common.by import By
 
-
 def contributor_ver(webdriver_path, github_url, id):
 
     # Chrome WebDriver 서비스 설정
     service = webdriver.chrome.service.Service(executable_path=webdriver_path)
 
-    # 웹 드라이버 초기화
+    # # 웹 드라이버 초기화
     driver = webdriver.Chrome(service=service)
 
-    # 웹 페이지 열기
-    driver.get(github_url)
-    time.sleep(2) # 결과값확인 -> 창이 뜨는지 확인
+    # 해당 URL에 요청 보내기
+    driver.get(github_url + "/graphs/contributors")
+    time.sleep(2)  # 페이지가 로드될 때까지 대기
 
-    # insights 버튼 클릭
-    insights_xpath = '//*[@id="insights-tab"]'
-    insights_element = driver.find_element("xpath", insights_xpath)
-    insights_element.click()
-    time.sleep(2) # 결과값 확인 -> 버튼이 클릭되는지 확인
+    # 페이지 소스 가져오기
+    page_source = driver.page_source
 
-    # Contributors 버튼 클릭
-    find = "Contributors"
-    category_elements = driver.find_elements(By.CSS_SELECTOR, ".js-selected-navigation-item.menu-item")
-    for i in category_elements:
-        categories = i.get_attribute("outerHTML")
-        if find in categories:
-            i.click()
-    time.sleep(2) # 결과값 확인 -> 버튼이 클릭되는지 확인
-
+    # BeautifulSoup을 사용하여 HTML 파싱
+    soup = BeautifulSoup(page_source, 'html.parser')
 
     contributor_names = driver.find_elements(By.CSS_SELECTOR, ".text-normal")
-
-    found = False
     for i in contributor_names:
         ids = i.get_attribute("outerHTML") # 해당 클래스의 바깥쪽 HTML을 가져다줌
         if id in ids:
             found = True
             break
-
+    else:
+        # 요청이 실패한 경우 None 반환
+        found = False
     if found:
         print("해당 지원자의 정보가 있습니다.")
     else:
