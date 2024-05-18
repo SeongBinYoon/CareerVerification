@@ -2,13 +2,85 @@
 <html lang="ko">
 <head>
     <title>Verification Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: left;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        div {
+            overflow: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            justify-content: flex-start; /* 위쪽 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            height: calc(100vh - 140px); /* 전체 높이에서 헤더와 푸터 높이 제외 */
+        }
+        section {
+            margin-top: 10px; /* 위쪽 여백 추가 */
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Verification Results</h1>
-    {% for filename, text in texts %}
-        <h2>{{ filename }}</h2>
-        <p>{{ text }}</p>
-    {% endfor %}
+    <header>
+        <h1>경력직 이력서 검증</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="/home">홈</a></li>
+            <li><a href="/upload">파일 업로드</a></li>
+            <li><a href="/files/resume">문서 리스트 및 검증</a></li>
+            <li><a href="/files/technical">경력기술서 리스트</a></li>
+            <li><a href="/results">검증 결과</a></li>
+        </ul>
+    </nav>
+    <div role="main">
+        <section>
+            <!-- 검증 결과 출력 -->
+            <h2>검증 결과</h2>
+            {% for file in files %}
+            <li>Resume Path: {{ file[0] }}, CV Path: {{ file[1] }}</li>
+            {% endfor %}
+        </section>
+    </div>
+    <footer>
+        <p>© 2024 HYNIUM</p>
+    </footer>
 </body>
 </html>
 
