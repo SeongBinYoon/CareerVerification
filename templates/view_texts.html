@@ -73,39 +73,49 @@
         <section>
             <!-- 검증 결과 출력 -->
             <h2>검증 결과</h2>
-            <!-- 이 주석은 참고용 -->
-            <!-- {% for file in files %} -->
-            <!-- <li>Resume Path: {{ file[0] }}, CV Path: {{ file[1] }}</li> -->
-            <!-- {% endfor %} -->
-
+            
             <!-- 개인정보 -->
-            <h3>개인 정보</h3>
-            {% for name in files %}
-            <li>이름: {{ name }}</li>
-            {% endfor %}
+            <h3>=====개인 정보=====</h3>
+            <p>성명: {{files_pinfo['name']}} </p>
+            <p>생년월일: {{files_pinfo['birth']}} </p>
+            <p>주소: {{files_pinfo['address']}} </p>
+            <p>연락처: {{files_pinfo['phone']}} </p>
+            <br>
 
             <!-- 요약(모델) -->
-            <h3>문서 요약</h3>
+            <h3>=====문서 요약=====</h3>
             
+            <br>
 
             <!-- 특허 검증 결과 -->
-            <h3>특허 검증 결과</h3>
-            
+            <h3>=====특허 검증 결과======</h3>
+            {% for pat in files_vres['patent'] %}
+            <p>결과: {{pat}}</p>
+            {% endfor %}
+            <br>
 
             <!-- 프로젝트 검증 결과 -->
-            <h3>프로젝트 검증 결과</h3>
-            
+            <h3>=====프로젝트 검증 결과=====</h3>
+            {% for proj in files_vres['project'] %}
+            <p>결과: {{proj}}</p>
+            {% endfor %}
+            <br>
 
             <!-- contributor 검증 결과 -->
-            <h3>contributor(프로젝트 기여도) 검증 결과</h3>
-            
+            <h3>=====Contributor (프로젝트 기여도) 검증 결과=====</h3>
+            {% for con in files_vres['contributor'] %}
+            <p>결과: {{con}}</p>
+            {% endfor %}
+            <br>
 
             <!-- 수상 내역 검증 결과 -->
-            <h3>수상 내역 검증 결과</h3>
+            <h3>=====수상 내역 검증 결과=====</h3>
+            {% for awd in files_vres['award'] %}
+            <p>결과: {{awd}}</p>
+            {% endfor %}
             
              
         </section>
     </div>
 </body>
 </html>
-

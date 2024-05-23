@@ -2,6 +2,13 @@ import re
 from tika import parser
 
 
+# 검증 결과 딕셔너리 선언 및 초기화
+global vres
+vres = {'patent': [],
+        'project': [],
+        'contributor': [],
+        'award': []}
+
 def ext_career(pdf_path2):
 
     ##### 전역 변수 #####

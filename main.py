@@ -1,30 +1,22 @@
 from flask import Flask, request, render_template, redirect, url_for
-import sqlite3
-import pymysql
 import os
 import extract as ext1
 import extract2 as ext2
+import settings as sts
+import patent as pat
+import contributor as con
+import project_sc as proj
 #from werkzeug.utils import secure_filename
+
 
 # 플라스크 정의
 app = Flask(__name__)
 
+
 # pdf 저장 폴더명
 UPLOAD_BASE = 'uploads'
 folder_name = 'uploadfiles'
-
-# db 연결
-def get_db():
-    conn = pymysql.connect(
-        host='',
-        user='',
-        password='',
-        db='',
-        charset='utf8'
-    )
     
-    return conn
-
 
 # 시작 페이지: main menu - 홈
 @app.route('/')
@@ -36,6 +28,7 @@ def index():
 # main menu - 홈
 @app.route('/home')
 def home():
+
     return render_template('home.html')
 
 
@@ -49,18 +42,20 @@ def upload_file():
 # main menu - 검증 결과
 @app.route('/results')
 def show_results():
-    return render_template('view_texts.html')
+
+    return render_template('view_texts.html', files_pinfo=ext1.pinfo, files_vres=ext2.vres)
 
 
 # 이력서 및 경력기술서 리스트 보여줌: main menu - 문서 리스트 및 검증
 @app.route('/files/resume')
 def file_list_resume():
     # 쿼리 실행
-    conn = get_db()
+    conn = sts.get_db()
     cursor = conn.cursor()
     cursor.execute("SELECT applicant_id, resume_pdf_addr, cv_pdf_addr FROM application")
     files = cursor.fetchall()
     conn.close()
+    #print(ext2.vres) # 검증 딕셔너리 확인용
 
     return render_template('resume_file_list.html', files=files)
 
@@ -88,7 +83,7 @@ def upload_resume():
             
             # db에 pdf 경로 저장
             try:
-                conn = get_db()
+                conn = sts.get_db()
                 cursor = conn.cursor()
                 cursor.execute("INSERT INTO application (application_date, resume_pdf_addr, cv_pdf_addr) VALUES (now(), %s, %s)", (path1, path2))
                 conn.commit()
@@ -97,8 +92,10 @@ def upload_resume():
                 return f"Database error: {e}", 500
             finally:
                 conn.close()
+
             # 성공적으로 업로드되면 '이력서 리스트' 탭으로 redirecting
             return redirect(url_for('file_list_resume'))
+        
         return 'Invalid file', 400
     else:
         return render_template('file_upload.html')
@@ -113,9 +110,20 @@ def verify_resume():
     global path_career
     file_ids = request.form.getlist('file_ids')
 
+    # 검증 결과 딕셔너리 초기화
+    ext1.pinfo = {'name': "", 
+                  'birth': "", 
+                  'address': "", 
+                  'phone': ""}
+    
+    ext2.vres = {'patent': [], 
+                 'project': [], 
+                 'contributor': [], 
+                 'award': []}
+
     if 'verify' in request.form['action']:
         if file_ids:
-            conn = get_db()
+            conn = sts.get_db()
             cursor = conn.cursor()
             query = "SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = " + file_ids[0]
             cursor.execute(query)
@@ -130,8 +138,11 @@ def verify_resume():
             
             # 추출 트리거
             ext_trigger(path_resume, path_career)
-            return render_template('view_texts.html', files=ext1.names)
-            #return render_template('view_texts.html', files=all_paths)
+            
+            # 검증 트리거
+            ver_trigger(sts.webdriver_path, sts.api_key)
+            
+            return render_template('view_texts.html', files_pinfo=ext1.pinfo, files_vres=ext2.vres)
             
         # 추후 오류 메시지 등으로 예외처리 필요
         else: return render_template('view_texts.html')
@@ -140,13 +151,29 @@ def verify_resume():
     else:
         return render_template('home.html')
 
-# 추출 함수를 호출하는 추출 트리거 함수
+
+# 추출 함수를 호출하는 추출 트리거 프로시저
 def ext_trigger(path1, path2):
     ext1.ext_resume(path1)
     ext2.ext_career(path2)
 
-    #return render_template('view_texts.html', files=ext1.names)
 
+# 검증 함수를 호출하는 검증 트리거 프로시저
+def ver_trigger(webdriver_path, api_key):
+    # 특허 검증
+    for cnt in range(len(ext2.patent_name)):
+        pat.patent_ver(sts.webdriver_path, ext2.patent_name[cnt], [ext1.names[0], ext2.patent_org[cnt]])
+
+    # 프로젝트 검증
+    for cnt in range(len(ext2.proj_name)):
+        proj.proj_ver(ext1.names[0], [ext2.proj_name[cnt], ext2.proj_org[cnt]], gpt_api_key=sts.api_key)
+            
+    # contributor 검증
+    for cnt in range(len(ext2.github_repo)):
+        con.contributor_ver(sts.webdriver_path, ext2.github_repo[cnt], ext2.github_id[cnt])
+
+    # 수상내역 검증
+            
 
 '''
 # 리스트에서 선택한 이력서, 경력기술서 삭제 - 해당 id의 모든 정보 db에서 삭제 (추후 구현)
@@ -164,7 +191,7 @@ def delete_resume():
 
 
 def init_db():
-    return get_db()
+    return sts.get_db()
 
 
 if __name__ == '__main__':

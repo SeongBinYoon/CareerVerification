@@ -2,11 +2,18 @@ import re
 from tika import parser
 
 
+# 개인 정보 딕셔너리 선언 및 초기화
+global pinfo
+pinfo = {'name': "",
+         'birth': "",
+         'address': "",
+         'phone': ""}
+
 def ext_resume(pdf_path1):
 
     ##### 전역 변수 #####
     global names
-
+    
     # pdf 파일 경로 및 텍스트 추출
     text_all = parser.from_file(pdf_path1)['content']
 
@@ -96,24 +103,28 @@ def ext_resume(pdf_path1):
     ##### 결과 출력 #####
     # 결과 출력_이름
     if names:
+        pinfo['name'] = names[0]
         print(names[0])  # 첫 번째 일치 항목 (보통 맨 처음 등장하는 이름이 지원자 이름이므로 -> 필요할 경우 수정)
     else:
         print("이름을 찾을 수 없습니다.")
 
     # 결과 출력_생년월일
     if birth:
+        pinfo['birth'] = birth[0]
         print(birth[0])
     else:
         print("생년월일(6자리)을 찾을 수 없습니다.")
 
     # 결과 출력_주소
     if addr:
+        pinfo['address'] = addr[0]
         print(addr[0])
     else:
         print("주소를 찾을 수 없습니다.")
 
     # 결과 출력_연락처
     if phone:
+        pinfo['phone'] = phone[0]
         print(phone[0])
     else:
         print("연락처를 찾을 수 없습니다.")
@@ -159,3 +170,6 @@ def ext_resume(pdf_path1):
     #    print(pr_resume[0])
     #else:
     #    print("자기소개를 찾을 수 없습니다.")
+    #print(pinfo)
+
+#ext_resume()

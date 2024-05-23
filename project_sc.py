@@ -5,6 +5,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from gpt_verification import verify_html_usingGPT
+import extract2 as ext2
 
 
 # google 뉴스로부터 html 가져오는 함수
@@ -40,9 +41,6 @@ def get_google_results(base_url, search_query):
 
 # 가져온 html로부터 정적 1차 검증 함수
 def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
-    # 웹 페이지 열기
-    # response = requests.get(news_url)
-    # soup = BeautifulSoup(response.text, 'html.parser')  
         
     # Google 뉴스 결과 가져오기
     results = get_google_results("news.google.com",search_query)
@@ -65,7 +63,7 @@ def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
         text_without_extra_spaces = ' '.join(str(text).split())
 
         # 지원자 프로젝트 경력 검증
-        verification_count_list = [0] * len(verification_list)  
+        verification_count_list = [0] * len(verification_list)
 
         found = False
     
@@ -84,7 +82,7 @@ def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
 
             if gpt_api_key != "":
                 answer = verify_html_usingGPT(text_without_extra_spaces, verification_list, search_query, gpt_api_key)
-
+            ext2.vres['project'].append("프로젝트 내역이 있습니다.") ##
             print("검증에 성공하였습니다. 검증을 종료합니다.")
             break
         else:

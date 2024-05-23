@@ -2,6 +2,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 from selenium.webdriver.common.by import By
+import extract2 as ext2
 
 def contributor_ver(webdriver_path, github_url, id):
 
@@ -25,10 +26,11 @@ def contributor_ver(webdriver_path, github_url, id):
         # 요청이 실패한 경우 None 반환
         found = False
     if found:
-        print("해당 지원자의 정보가 있습니다.")
+        ext2.vres['contributor'].append("참여 내역이 있습니다.")
+        #print("해당 지원자의 정보가 있습니다.")
     else:
-        print("해당 지원자의 정보가 없습니다.")
-
-    print(id) # 이름이 정상적으로 담기는지 확인
-
-contributor_ver(r"C:\Users\minji\Downloads\chromedriver_win32 (1)\chromedriver.exe","https://github.com/midday2612/aix-deep-learning", "midday2612")
+        ext2.vres['contributor'].append("참여 내역이 없습니다.")
+        #print("해당 지원자의 정보가 없습니다.")
+    print(ext2.vres)
+    
+    #print(id) # 이름이 정상적으로 담기는지 확인
