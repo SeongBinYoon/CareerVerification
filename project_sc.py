@@ -1,17 +1,16 @@
+import requests
+import extract2 as ext2
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
-import time
-import requests
-from bs4 import BeautifulSoup
 from gpt_verification import verify_html_usingGPT
-import extract2 as ext2
 
 
 # google 뉴스로부터 html 가져오는 함수
 def get_google_results(base_url, search_query):
         # 검색어에 대한 URL 인코딩
-        url = f"https://{base_url}/search?q={search_query}&hl=ko&gl=KR&ceid=KR%3Ako"
+        url = f"{base_url}/search?q={search_query}&hl=ko&gl=KR&ceid=KR%3Ako"
 
         # 해당 URL에 요청 보내기
         response = requests.get(url)
@@ -40,10 +39,10 @@ def get_google_results(base_url, search_query):
 
 
 # 가져온 html로부터 정적 1차 검증 함수
-def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
+def proj_ver(search_query, verification_list, mode="award", base_url= "https://news.google.com", gpt_api_key=None):
         
     # Google 뉴스 결과 가져오기
-    results = get_google_results("news.google.com",search_query)
+    results = get_google_results(base_url,search_query)
 
     # 결과 출력
     if results:
@@ -53,19 +52,16 @@ def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
 
     for i in range(10):
         # full_url 생성
-        base_url = "https://news.google.com"
         relative_url = results[i]
         full_url = base_url + relative_url
         response = requests.get(full_url)
         soup = BeautifulSoup(response.content, 'html.parser')
 
         text = soup.text
-        text_without_extra_spaces = ' '.join(str(text).split())
+        text = ' '.join(str(text).split())
 
         # 지원자 프로젝트 경력 검증
         verification_count_list = [0] * len(verification_list)
-
-        found = False
     
         # verification_list의 각 단어에 대해 count를 하여 중복을 피함
         for word in verification_list:
@@ -75,17 +71,23 @@ def proj_ver(search_query, verification_list, news_url=None, gpt_api_key=None):
 
         count = sum(1 for count in verification_count_list if count > 0)
 
-        if all(count > 0 for count in verification_count_list):
-            print(full_url)
-            print(verification_count_list)
-            print(f"해당 지원자의 정보가 {count}/{len(verification_list)} 개 있습니다.")
+        print(full_url)
+        print(verification_count_list)
+        print(f"해당 지원자의 정보가 {count}/{len(verification_list)} 개 있습니다.")
 
+        if all(count > 0 for count in verification_count_list):
             if gpt_api_key != "":
-                answer = verify_html_usingGPT(text_without_extra_spaces, verification_list, search_query, gpt_api_key)
+                keyword = search_query
+
+                if mode == 'award':
+                    query = ('아래의 웹에서 크롤링한 내용을 토대로' + verification_list[0] + '이(가)' + keyword + '에서' + 
+                            verification_list[1] + '수상성적을 거뒀는지 알려줘.' + text)
+                if mode == 'project':
+                    query = ('아래의 웹에서 크롤링한 내용을 토대로' + verification_list[0] + verification_list[1] + 
+                             '이(가)' + keyword + '에서' + '프로젝트 경험이 있는지 알려줘.' + text)
+                    
+                answer = verify_html_usingGPT(query, gpt_api_key)
             ext2.vres['project'].append("프로젝트 내역이 있습니다.") ##
+            
             print("검증에 성공하였습니다. 검증을 종료합니다.")
             break
-        else:
-            print(full_url)
-            print(verification_count_list)
-            print(f"해당 지원자의 정보가 {count}/{len(verification_list)} 개 있습니다.\n")
