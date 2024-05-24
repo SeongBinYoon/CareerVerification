@@ -1,4 +1,3 @@
-<!-- 이력서 리스트 화면 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +32,11 @@
             text-decoration: none;
         }
         div {
-            /* overflow: auto; */
             padding: 20px;
-            display: flex; /* Flex 컨테이너 설정 */
-            justify-content: center; /* 수평 중앙 정렬 */
-            align-items: center; /* 수직 중앙 정렬 */
-            height: calc(100vh - 140px); /* 전체 높이에서 헤더와 푸터 높이 제외 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 140px);
         }
         section {
             margin-bottom: 20px;
@@ -52,6 +50,21 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -72,16 +85,26 @@
         <form action="/action/resume" method="post">
             <h2>지원자 ID | 이력서 리스트 | 경력기술서 리스트</h2>
             <h3>하나의 항목만 체크해주세요. 두 개 이상 체크는 불가합니다.</h3>
-            <ul>
-                {% for file in files %}
-                <li>
-                    <input type="checkbox" name="file_ids" value="{{ file[0] }}">
-                    지원자 ID: {{ file[0] }}<br>
-                    이력서: {{ file[1] }}&emsp;
-                    경력기술서: {{ file[2] }}<br>
-                </li>
-                {% endfor %}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>선택</th>
+                        <th>지원자 ID</th>
+                        <th>이력서</th>
+                        <th>경력기술서</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                    <tr>
+                        <td><input type="checkbox" name="file_ids" value="{{ file[0] }}"></td>
+                        <td>{{ file[0] }}</td>
+                        <td>{{ file[1] }}</td>
+                        <td>{{ file[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             <button type="submit" name="action" value="verify">검증</button>
             <button type="submit" name="action" value="delete">삭제</button>
         </form>

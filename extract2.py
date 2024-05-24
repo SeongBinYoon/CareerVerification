@@ -2,12 +2,19 @@ import re
 from tika import parser
 
 
-# 검증 결과 딕셔너리 선언 및 초기화
+# 검증 항목 및 검증 결과 딕셔너리 선언 및 초기화
+global vcat
 global vres
+vcat = {'patent': [],
+        'project': [],
+        'contributor': [],
+        'award': []}
+
 vres = {'patent': [],
         'project': [],
         'contributor': [],
         'award': []}
+
 
 def ext_career(pdf_path2):
 
@@ -243,6 +250,8 @@ def ext_career(pdf_path2):
 
     # 결과 출력_프로젝트명
     if proj_name:
+        for i in range(len(proj_name)):
+            vcat['project'].append(proj_name[i])
         print(proj_name)
     else:
         print("프로젝트명을 찾을 수 없습니다.")
@@ -267,12 +276,16 @@ def ext_career(pdf_path2):
 
     # 결과 출력_Github repository URL
     if github_repo:
+        for i in range(len(github_repo)):
+            vcat['contributor'].append(github_repo[i])
         print(github_repo)
     else:
         print("github repository URL을 찾을 수 없습니다.")
 
     # 결과 출력_상훈명
     if award_name:
+        for i in range(len(award_name)):
+            vcat['award'].append(award_name[i])
         print(award_name)
     else:
         print("상훈명을 찾을 수 없습니다.")
@@ -303,6 +316,8 @@ def ext_career(pdf_path2):
 
     # 결과 출력_특허명
     if patent_name:
+        for i in range(len(patent_name)):
+            vcat['patent'].append(patent_name[i])
         print(patent_name)
     else:
         print("특허명을 찾을 수 없습니다.")

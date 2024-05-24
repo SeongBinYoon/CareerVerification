@@ -89,7 +89,8 @@
 
             <!-- 특허 검증 결과 -->
             <h3>=====특허 검증 결과======</h3>
-            {% for pat in files_vres['patent'] %}
+            {% for vcat, pat in zip(files_vcat['patent'], files_vres['patent']) %}
+            <b>{{vcat}}</b>
             <p>결과: {{pat}}</p>
             {% endfor %}
             <br>

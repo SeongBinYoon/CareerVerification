@@ -110,6 +110,12 @@ def verify_resume():
     global path_career
     file_ids = request.form.getlist('file_ids')
 
+    # 검증 항목 딕셔너리 초기화
+    ext2.vcat = {'patent': [],
+                 'project': [],
+                 'contributor': [],
+                 'award': []}
+    
     # 검증 결과 딕셔너리 초기화
     ext1.pinfo = {'name': "", 
                   'birth': "", 
@@ -142,7 +148,11 @@ def verify_resume():
             # 검증 트리거
             ver_trigger(sts.webdriver_path, sts.api_key)
             
-            return render_template('view_texts.html', files_pinfo=ext1.pinfo, files_vres=ext2.vres)
+            return render_template('view_texts.html', 
+                                   files_pinfo=ext1.pinfo, 
+                                   files_vres=ext2.vres, 
+                                   files_vcat=ext2.vcat,
+                                   zip=zip)
             
         # 추후 오류 메시지 등으로 예외처리 필요
         else: return render_template('view_texts.html')
