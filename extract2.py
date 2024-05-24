@@ -22,18 +22,18 @@ def ext_career(pdf_path2):
 
     text_all = parser.from_file(pdf_path2)['content']
     text = re.sub(r'[\n(),]', '', text_all)
-    #print(text)
+    #print(text) # 정규표현식 수정용
 
     ##### 회사 소개 #####
 
     #회사명 추출
     #comp_name_pat = r'회사명\s*([가-힣\s]{1,12}㈜)'
-    comp_name_pat = r"회 사 명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=주요사업)"
+    comp_name_pat = r"회 사 명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s주요사업)"
     comp_name = re.findall(comp_name_pat, text)
 
     #주요사업 추출
     #business_pattern = r'주요사업\s*([가-힣]{1,12})'
-    business_pat = r"주요사업\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=회사규모)"
+    business_pat = r"주요사업\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s회사규모)"
     business = re.findall(business_pat, text)
 
     # 자본금 추출
@@ -70,61 +70,61 @@ def ext_career(pdf_path2):
     # 업무 내용 추출
     #detailtask_pat = re.compile(r'업무 내용(.*?)■', re.DOTALL)
     #detailtask = detailtask_pat.search(text)
-    detailtask_pat = r'업무 내용(.*?)업무 성과'
+    detailtask_pat = r'업무 내용\s*(.*?)\s*업무 성과'
     detailtask = re.findall(detailtask_pat, text)
 
     #업무 성과 추출
     #perf_pat = re.compile(r'업무 성과(.*?)■', re.DOTALL)
     #perf = perf_pat.search(text)
-    perf_pat = r'업무 성과(.*?)(?=경력[2-9]|업무 관련 사항)'
+    perf_pat = r'업무 성과\s*(.*?)\s*(?=경력[2-9]|업무 관련 사항)'
     perf = re.findall(perf_pat, text)
 
     ##### 업무 관련 사항 #####
 
     # 프로젝트 내역 추출
     # 프로젝트명 추출
-    proj_name_pat = r"프로젝트명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=기관명)"
+    proj_name_pat = r"프로젝트명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s기관명)"
     proj_name = re.findall(proj_name_pat, text)
 
     # 기관명 추출
-    proj_org_pat = r"기관명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=프로젝트 상세)"
+    proj_org_pat = r"기관명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s프로젝트 상세)"
     proj_org = re.findall(proj_org_pat, text)
 
     # 프로젝트 상세 추출
-    proj_detail_pat = r"프로젝트 상세\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=Github ID)"
+    proj_detail_pat = r"프로젝트 상세\s*-?\s?([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\sGithub ID)"
     proj_detail = re.findall(proj_detail_pat, text)
 
     # Github ID 추출
-    github_id_pat = r"Github ID\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=Github Repository URL)"
+    github_id_pat = r"Github ID\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\sGithub Repository URL)"
     github_id = re.findall(github_id_pat, text)
 
     # Github Repo URL 추출
     #github_repo_pat = r'(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?'
     #github_repo = re.search(github_repo_pat, text)
-    github_repo_pat = r"Github Repository URL\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)■"
+    github_repo_pat = r"Github Repository URL\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s\s■)"
     github_repo = re.findall(github_repo_pat, text)
 
 
     
     # 수상 내역 추출
     # 상훈명 추출
-    award_name_pat = r"상훈명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=수여기관)"
+    award_name_pat = r"상훈명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s수여기관)"
     award_name = re.findall(award_name_pat, text)
     
     # 수여기관 추출
-    award_org_pat = r"수여기관\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=수상일자)"
+    award_org_pat = r"수여기관\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s수상일자)"
     award_org = re.findall(award_org_pat, text)
 
     # 수상일자 추출
-    award_date_pat = r"수상일자\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=팀명성명)"
+    award_date_pat = r"수상일자\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s팀명성명)"
     award_date = re.findall(award_date_pat, text)
 
     # 팀명(성명) 추출
-    award_team_pat = r"팀명성명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=수상내역)"
+    award_team_pat = r"팀명성명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s수상내역)"
     award_team = re.findall(award_team_pat, text)
 
     # 수상내역 추출
-    award_detail_pat = r"수상내역\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=■ 특허 사항)"
+    award_detail_pat = r"수상내역\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s\s■\s특허 사항)"
     award_detail = re.findall(award_detail_pat, text)
 
 
@@ -134,26 +134,26 @@ def ext_career(pdf_path2):
     patent_name = re.findall(patent_name_pat, text)
 
     # 특허 출원인 추출
-    patent_org_pat = r"특허 출원인\s(.*?)(?=\s특허명|■)"
+    patent_org_pat = r"특허 출원인\s(.*?)(?=\s특허명|\s\s■)"
     patent_org = re.findall(patent_org_pat, text)
 
 
     # 자격 사항 추출
     # 보유지식/능력 추출
-    skill_pat = r"보유지식/능력\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=자 격 증)"
+    skill_pat = r"보유지식/능력\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s자 격 증)"
     skill = re.findall(skill_pat, text)
 
     # 자격증 추출
-    qual_pat = r"자 격 증\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=교육/연수)"
+    qual_pat = r"자 격 증\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s교육/연수)"
     qual = re.findall(qual_pat, text)
 
     # 교육/연수 추출
-    edu_pat = r"교육/연수\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)"
+    edu_pat = r"교육/연수\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)\s\s■"
     edu = re.findall(edu_pat, text)
 
     ##### 이직 사유 #####
     # 이직 사유 추출
-    switjob_pat = r"이직사유\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)"
+    switjob_pat = r"이직사유\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)\s\s■"
     switjob = re.findall(switjob_pat, text)
 
     ##### 자기 PR #####

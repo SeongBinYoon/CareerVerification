@@ -170,21 +170,20 @@ def ext_trigger(path1, path2):
 def ver_trigger(webdriver_path, api_key):
     # 특허 검증
     for cnt in range(len(ext2.patent_name)):
-        pat.patent_ver(sts.webdriver_path, ext2.patent_name[cnt], [ext1.names[0], ext2.patent_org[cnt]])
+        pat.patent_ver(webdriver_path, ext2.patent_name[cnt], [ext1.names[0], ext2.patent_org[cnt]])
 
     # 프로젝트 검증
     for cnt in range(len(ext2.proj_name)):
-        proj.proj_ver(ext1.names[0], [ext2.proj_name[cnt], ext2.proj_org[cnt]], gpt_api_key=sts.api_key)
+        proj.proj_ver(ext1.names[0], [ext2.proj_name[cnt], ext2.proj_org[cnt]], gpt_api_key=api_key)
             
     # contributor 검증
     for cnt in range(len(ext2.github_repo)):
-        con.contributor_ver(sts.webdriver_path, ext2.github_repo[cnt], ext2.github_id[cnt])
+        con.contributor_ver(webdriver_path, ext2.github_repo[cnt], ext2.github_id[cnt])
 
     # 수상내역 검증
             
 
 '''
-# 리스트에서 선택한 이력서, 경력기술서 삭제 - 해당 id의 모든 정보 db에서 삭제 (추후 구현)
 @app.route('/action/resume', methods=['POST'])
 def delete_resume():
     file_ids = request.form.getlist('file_ids')
@@ -196,6 +195,8 @@ def delete_resume():
     # 삭제된 결과로 리스트 redirect
     return redirect(url_for('file_list_resume'))
 '''
+
+# 리스트에서 선택한 이력서, 경력기술서 삭제
 @app.route('/action/resume', methods=['POST'])
 def delete_resume(file_id):
     try:

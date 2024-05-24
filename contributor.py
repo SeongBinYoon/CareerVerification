@@ -14,7 +14,7 @@ def contributor_ver(webdriver_path, github_url, id):
 
     # 해당 URL에 요청 보내기
     driver.get(github_url + "/graphs/contributors")
-    time.sleep(5)  # 페이지가 로드될 때까지 대기
+    time.sleep(20)  # 페이지가 로드될 때까지 대기
 
     contributor_names = driver.find_elements(By.CSS_SELECTOR, ".text-normal")
     for i in contributor_names:
