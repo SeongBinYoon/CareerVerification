@@ -147,9 +147,17 @@ def verify_resume():
         # 추후 오류 메시지 등으로 예외처리 필요
         else: return render_template('view_texts.html')
     
-    # 추후 삭제 기능 함수 호출
+    # # 추후 삭제 기능 함수 호출
+    # else:
+    #     return render_template('home.html')
+    # 삭제 기능 함수 호출
+    elif 'delete' in request.form['action']:
+        if file_ids:
+            delete_resume(file_ids[0])
+        return redirect(url_for('file_list_resume'))
     else:
         return render_template('home.html')
+
 
 
 # 추출 함수를 호출하는 추출 트리거 프로시저
@@ -188,6 +196,29 @@ def delete_resume():
     # 삭제된 결과로 리스트 redirect
     return redirect(url_for('file_list_resume'))
 '''
+@app.route('/action/resume', methods=['POST'])
+def delete_resume(file_id):
+    try:
+        conn = sts.get_db()
+        cursor = conn.cursor()
+        # 파일 경로 가져오기
+        cursor.execute("SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = %s", (file_id,))
+        paths = cursor.fetchone()
+        
+        if paths:
+            # 파일 삭제
+            for path in paths:
+                if os.path.exists(path):
+                    os.remove(path)
+
+            # DB에서 삭제
+            cursor.execute("DELETE FROM application WHERE applicant_id = %s", (file_id,))
+            conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print(f"Error deleting resume: {e}")
+    finally:
+        conn.close()
 
 
 def init_db():
