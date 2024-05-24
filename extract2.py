@@ -25,6 +25,8 @@ def ext_career(pdf_path2):
     global github_repo
     global proj_name
     global proj_org
+    global award_name
+    global award_org
 
 
     text_all = parser.from_file(pdf_path2)['content']
@@ -250,6 +252,7 @@ def ext_career(pdf_path2):
 
     # 결과 출력_프로젝트명
     if proj_name:
+        # 검증 항목 딕셔너리에 추가
         for i in range(len(proj_name)):
             vcat['project'].append(proj_name[i])
         print(proj_name)
@@ -276,6 +279,7 @@ def ext_career(pdf_path2):
 
     # 결과 출력_Github repository URL
     if github_repo:
+        # 검증 항목 딕셔너리에 추가
         for i in range(len(github_repo)):
             vcat['contributor'].append(github_repo[i])
         print(github_repo)
@@ -284,6 +288,7 @@ def ext_career(pdf_path2):
 
     # 결과 출력_상훈명
     if award_name:
+        # 검증 항목 딕셔너리에 추가
         for i in range(len(award_name)):
             vcat['award'].append(award_name[i])
         print(award_name)
@@ -316,6 +321,7 @@ def ext_career(pdf_path2):
 
     # 결과 출력_특허명
     if patent_name:
+        # 검증 항목 딕셔너리에 추가
         for i in range(len(patent_name)):
             vcat['patent'].append(patent_name[i])
         print(patent_name)

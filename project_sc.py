@@ -87,7 +87,18 @@ def proj_ver(search_query, verification_list, mode="award", base_url= "https://n
                              '이(가)' + keyword + '에서' + '프로젝트 경험이 있는지 알려줘.' + text)
                     
                 answer = verify_html_usingGPT(query, gpt_api_key)
-            ext2.vres['project'].append("프로젝트 내역이 있습니다.") ##
+            if mode == 'project':
+                # 검증 결과 딕셔너리에 추가
+                ext2.vres['project'].append("프로젝트 내역이 있습니다.")
+            else:
+                # 검증 결과 딕셔너리에 추가
+                ext2.vres['award'].append("수상 내역이 있습니다.")
             
             print("검증에 성공하였습니다. 검증을 종료합니다.")
             break
+    if mode == 'project':
+        # 검증 결과 딕셔너리에 추가
+        ext2.vres['project'].append("프로젝트 내역이 없습니다.")
+    else:
+        # 검증 결과 딕셔너리에 추가
+        ext2.vres['award'].append("수상 내역이 없습니다.")

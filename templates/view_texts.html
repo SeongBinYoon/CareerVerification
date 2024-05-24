@@ -89,32 +89,45 @@
 
             <!-- 특허 검증 결과 -->
             <h3>=====특허 검증 결과======</h3>
-            {% for vcat, pat in zip(files_vcat['patent'], files_vres['patent']) %}
-            <b>{{vcat}}</b>
-            <p>결과: {{pat}}</p>
+            {% for pat, vpat in zip(files_vcat['patent'], files_vres['patent']) %}
+            <b>{{pat}}</b>
+            <p>결과: {{vpat}}</p>
             {% endfor %}
             <br>
 
             <!-- 프로젝트 검증 결과 -->
             <h3>=====프로젝트 검증 결과=====</h3>
-            {% for proj in files_vres['project'] %}
-            <p>결과: {{proj}}</p>
+            <!-- {% for proj in files_vres['project'] %} -->
+            <!-- <p>결과: {{proj}}</p> -->
+            <!-- {% endfor %} -->
+
+            {% for proj, vproj in zip(files_vcat['project'], files_vres['project']) %}
+            <b>{{proj}}</b>
+            <p>결과: {{vproj}}</p>
             {% endfor %}
             <br>
 
             <!-- contributor 검증 결과 -->
             <h3>=====Contributor (프로젝트 기여도) 검증 결과=====</h3>
-            {% for con in files_vres['contributor'] %}
-            <p>결과: {{con}}</p>
+            <!-- {% for con in files_vres['contributor'] %} -->
+            <!-- <p>결과: {{con}}</p> -->
+            <!-- {% endfor %} -->
+
+            {% for con, vcon in zip(files_vcat['contributor'], files_vres['contributor']) %}
+            <b>{{con}}</b>
+            <p>결과: {{vcon}}</p>
             {% endfor %}
             <br>
 
             <!-- 수상 내역 검증 결과 -->
             <h3>=====수상 내역 검증 결과=====</h3>
-            {% for awd in files_vres['award'] %}
-            <p>결과: {{awd}}</p>
+            <!-- {% for awd in files_vres['award'] %} -->
+            <!-- <p>결과: {{awd}}</p> -->
+            <!-- {% endfor %} -->
+            {% for awd, vawd in zip(files_vcat['award'], files_vres['award']) %}
+            <b>{{awd}}</b>
+            <p>결과: {{vawd}}</p>
             {% endfor %}
-            
              
         </section>
     </div>

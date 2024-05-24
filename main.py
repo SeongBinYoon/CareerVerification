@@ -43,7 +43,11 @@ def upload_file():
 @app.route('/results')
 def show_results():
 
-    return render_template('view_texts.html', files_pinfo=ext1.pinfo, files_vres=ext2.vres)
+    return render_template('view_texts.html', 
+                                   files_pinfo=ext1.pinfo, 
+                                   files_vres=ext2.vres, 
+                                   files_vcat=ext2.vcat,
+                                   zip=zip)
 
 
 # 이력서 및 경력기술서 리스트 보여줌: main menu - 문서 리스트 및 검증
@@ -110,6 +114,12 @@ def verify_resume():
     global path_career
     file_ids = request.form.getlist('file_ids')
 
+    # 개인 정보 딕셔너리 초기화
+    ext1.pinfo = {'name': "", 
+                  'birth': "", 
+                  'address': "", 
+                  'phone': ""}
+    
     # 검증 항목 딕셔너리 초기화
     ext2.vcat = {'patent': [],
                  'project': [],
@@ -117,11 +127,6 @@ def verify_resume():
                  'award': []}
     
     # 검증 결과 딕셔너리 초기화
-    ext1.pinfo = {'name': "", 
-                  'birth': "", 
-                  'address': "", 
-                  'phone': ""}
-    
     ext2.vres = {'patent': [], 
                  'project': [], 
                  'contributor': [], 
@@ -151,7 +156,7 @@ def verify_resume():
             return render_template('view_texts.html', 
                                    files_pinfo=ext1.pinfo, 
                                    files_vres=ext2.vres, 
-                                   files_vcat=ext2.vcat,
+                                   files_vcat=ext2.vcat, 
                                    zip=zip)
             
         # 추후 오류 메시지 등으로 예외처리 필요
@@ -180,17 +185,31 @@ def ext_trigger(path1, path2):
 def ver_trigger(webdriver_path, api_key):
     # 특허 검증
     for cnt in range(len(ext2.patent_name)):
-        pat.patent_ver(webdriver_path, ext2.patent_name[cnt], [ext1.names[0], ext2.patent_org[cnt]])
+        pat.patent_ver(webdriver_path, 
+                       ext2.patent_name[cnt], 
+                       [ext1.names[0], ext2.patent_org[cnt]])
 
     # 프로젝트 검증
     for cnt in range(len(ext2.proj_name)):
-        proj.proj_ver(ext1.names[0], [ext2.proj_name[cnt], ext2.proj_org[cnt]], gpt_api_key=api_key)
+        proj.proj_ver(ext1.names[0], 
+                      [ext2.proj_name[cnt], 
+                       ext2.proj_org[cnt]], 
+                       mode = "project", 
+                       gpt_api_key=api_key)
             
     # contributor 검증
     for cnt in range(len(ext2.github_repo)):
-        con.contributor_ver(webdriver_path, ext2.github_repo[cnt], ext2.github_id[cnt])
+        con.contributor_ver(webdriver_path, 
+                            ext2.github_repo[cnt], 
+                            ext2.github_id[cnt])
 
     # 수상내역 검증
+    for cnt in range(len(ext2.award_name)):
+        proj.proj_ver(ext1.names[0], 
+                      [ext2.award_name[cnt], 
+                       ext2.award_org[cnt]], 
+                       mode = "award", 
+                       gpt_api_key=api_key)
             
 
 '''
