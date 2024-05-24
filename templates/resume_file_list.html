@@ -16,12 +16,14 @@
         }
         nav {
             background-color: #444;
-            padding: 1px;
+            padding: 17px; 
             text-align: center;
+            /* margin-bottom: 0;  */
         }
         nav ul {
             list-style-type: none;
             padding: 0;
+            margin: 0; 
         }
         nav ul li {
             display: inline;
@@ -36,9 +38,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 140px);
+            margin-top: 0; 
         }
         section {
+            margin-top: 10px; /* 위쪽 여백 추가 */
             margin-bottom: 20px;
             text-align: left;
         }
@@ -52,9 +55,9 @@
             width: 100%;
         }
         table {
-            width: 100%;
+            width: 1200px;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 100px;
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -65,6 +68,12 @@
         }
         th {
             background-color: #f2f2f2;
+        }
+        tfoot {
+            text-align: right; 
+        }
+        tfoot button {
+            margin-left: 10px; 
         }
     </style>
 </head>
@@ -104,9 +113,15 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <button type="submit" name="action" value="verify">검증</button>
+                            <button type="submit" name="action" value="delete">삭제</button>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
-            <button type="submit" name="action" value="verify">검증</button>
-            <button type="submit" name="action" value="delete">삭제</button>
         </form>
     </div>
 </body>
