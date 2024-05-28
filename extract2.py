@@ -27,11 +27,13 @@ def ext_career(pdf_path2):
     global proj_org
     global award_name
     global award_org
+    global award_team
 
 
     text_all = parser.from_file(pdf_path2)['content']
+    #print(text_all)
     text = re.sub(r'[\n(),]', '', text_all)
-    #print(text) # 정규표현식 수정용
+    print(text) # 정규표현식 수정용
 
     ##### 회사 소개 #####
 
@@ -139,11 +141,11 @@ def ext_career(pdf_path2):
 
     # 특허 사항 추출
     # 특허명 추출
-    patent_name_pat = r"특허명\d+\s(.*?)(?=\s특허 출원인|$)"
+    patent_name_pat = r"특허명\d+\s(?=\S)(.*?)(?=\s특허 출원인|$)"
     patent_name = re.findall(patent_name_pat, text)
 
     # 특허 출원인 추출
-    patent_org_pat = r"특허 출원인\s(.*?)(?=\s특허명|\s\s■)"
+    patent_org_pat = r"특허 출원인\s(?=\S)(.*?)(?=\s특허명|\s\s■)"
     patent_org = re.findall(patent_org_pat, text)
 
 

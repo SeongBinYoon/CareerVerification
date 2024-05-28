@@ -19,7 +19,7 @@ def ext_resume(pdf_path1):
 
     # 줄바꿈, 괄호, 콤마 문자를 대체
     text = re.sub(r'[\n(),]', '', text_all)
-    #print(text)    # 추출한 pdf 내용 확인
+    print(text)    # 정규표현식 수정용
 
     ##### 인적 사항 #####
     # '이름' 다음에 오는 한글 이름 패턴 2~4글자 찾기

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 import os
 import extract as ext1
 import extract2 as ext2
@@ -11,7 +11,7 @@ import project_sc as proj
 
 # 플라스크 정의
 app = Flask(__name__)
-
+app.config["SECRET_KEY"] = sts.configkey
 
 # pdf 저장 폴더명
 UPLOAD_BASE = 'uploads'
@@ -132,8 +132,11 @@ def verify_resume():
                  'contributor': [], 
                  'award': []}
 
+    # 검증 버튼 클릭 시
     if 'verify' in request.form['action']:
-        if file_ids:
+        # file_ids가 존재하고, 그 크기가 1(하나의 항목만 체크)인 경우 예외처리
+        if file_ids and len(file_ids) == 1:
+            
             conn = sts.get_db()
             cursor = conn.cursor()
             query = "SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = " + file_ids[0]
@@ -147,32 +150,47 @@ def verify_resume():
             # 경력기술서 경로
             path_career = all_paths[0][1]
             
-            # 추출 트리거
-            ext_trigger(path_resume, path_career)
+            # 체크한 항목의 파일이 로컬 PC에 없는 경우 예외처리
+            try:
+                # 추출 트리거
+                ext_trigger(path_resume, path_career)
+            except FileNotFoundError:
+                flash("해당 파일은 현재 PC에 없습니다. 업로드해주세요.")
+                return file_list_resume()
             
-            # 검증 트리거
-            ver_trigger(sts.webdriver_path, sts.api_key)
+            # 검증 강제 종료 시 예외처리
+            try:
+                # 검증 트리거
+                ver_trigger(sts.webdriver_path, sts.api_key)
             
+            except Exception as e:
+                flash("검증이 강제 종료되었습니다.")
+                return file_list_resume()
+
             return render_template('view_texts.html', 
                                    files_pinfo=ext1.pinfo, 
                                    files_vres=ext2.vres, 
                                    files_vcat=ext2.vcat, 
                                    zip=zip)
-            
-        # 추후 오류 메시지 등으로 예외처리 필요
-        else: return render_template('view_texts.html')
+        
+        # 두 개 이상 항목 체크 후 검증 클릭 시 예외처리
+        elif file_ids and len(file_ids) > 1:
+            flash("하나의 항목만 체크해주세요.")
+            return file_list_resume()
+
+        # 체크 없이 검증 클릭 시 예외처리
+        else:
+            flash("항목에 체크해주세요.")
+            #return render_template('resume_file_list.html')
+            return file_list_resume()
     
-    # # 추후 삭제 기능 함수 호출
-    # else:
-    #     return render_template('home.html')
-    # 삭제 기능 함수 호출
+    # 삭제 버튼 클릭 시
     elif 'delete' in request.form['action']:
         if file_ids:
             delete_resume(file_ids[0])
         return redirect(url_for('file_list_resume'))
     else:
         return render_template('home.html')
-
 
 
 # 추출 함수를 호출하는 추출 트리거 프로시저
@@ -183,12 +201,13 @@ def ext_trigger(path1, path2):
 
 # 검증 함수를 호출하는 검증 트리거 프로시저
 def ver_trigger(webdriver_path, api_key):
+    
     # 특허 검증
     for cnt in range(len(ext2.patent_name)):
         pat.patent_ver(webdriver_path, 
                        ext2.patent_name[cnt], 
                        [ext1.names[0], ext2.patent_org[cnt]])
-
+    
     # 프로젝트 검증
     for cnt in range(len(ext2.proj_name)):
         proj.proj_ver(ext1.names[0], 
@@ -202,28 +221,15 @@ def ver_trigger(webdriver_path, api_key):
         con.contributor_ver(webdriver_path, 
                             ext2.github_repo[cnt], 
                             ext2.github_id[cnt])
-
+    
     # 수상내역 검증
     for cnt in range(len(ext2.award_name)):
-        proj.proj_ver(ext1.names[0], 
-                      [ext2.award_name[cnt], 
-                       ext2.award_org[cnt]], 
+        proj.proj_ver(ext2.award_name[cnt], 
+                      [ext2.award_org[cnt], 
+                       ext2.award_team[cnt]], 
                        mode = "award", 
                        gpt_api_key=api_key)
             
-
-'''
-@app.route('/action/resume', methods=['POST'])
-def delete_resume():
-    file_ids = request.form.getlist('file_ids')
-    if 'verify' in request.form['action']:
-        if file_ids:
-            # 체크된 항목 db에서 DELETE
-            pass
-    
-    # 삭제된 결과로 리스트 redirect
-    return redirect(url_for('file_list_resume'))
-'''
 
 # 리스트에서 선택한 이력서, 경력기술서 삭제
 @app.route('/action/resume', methods=['POST'])
