@@ -84,7 +84,9 @@
 
             <!-- 요약(모델) -->
             <h3>=====문서 요약=====</h3>
-            
+            {% for text in summ_text['text'] %}
+            <p>{{text}}</p>
+            {% endfor %}
             <br>
 
             <!-- 특허 검증 결과 -->
@@ -104,6 +106,9 @@
             {% for proj, vproj in zip(files_vcat['project'], files_vres['project']) %}
             <b>{{proj}}</b>
             <p>결과: {{vproj}}</p>
+            {% if gpt_res['proj'] %}
+                <p><b>gpt 검증 의견:</b> {{ gpt_res['proj'] }}</p>
+            {% endif %}
             {% endfor %}
             <br>
 
@@ -127,6 +132,9 @@
             {% for awd, vawd in zip(files_vcat['award'], files_vres['award']) %}
             <b>{{awd}}</b>
             <p>결과: {{vawd}}</p>
+            {% if gpt_res['award'] %}
+                <p><b>gpt 검증 의견:</b> {{ gpt_res['award'] }}</p>
+            {% endif %}
             {% endfor %}
              
         </section>

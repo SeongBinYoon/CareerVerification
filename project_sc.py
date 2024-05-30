@@ -90,9 +90,11 @@ def proj_ver(search_query, verification_list, mode="award", base_url= "https://n
             if mode == 'project':
                 # 검증 결과 딕셔너리에 추가
                 ext2.vres['project'].append("프로젝트 내역이 있습니다.")
+                ext2.gpt_res['proj'].append(answer)
             else:
                 # 검증 결과 딕셔너리에 추가
                 ext2.vres['award'].append("수상 내역이 있습니다.")
+                ext2.gpt_res['award'].append(answer)
             
             print("검증에 성공하였습니다. 검증을 종료합니다.")
             break

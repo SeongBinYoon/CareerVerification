@@ -6,6 +6,7 @@ import settings as sts
 import patent as pat
 import contributor as con
 import project_sc as proj
+import summarize_text as summ_t
 #from werkzeug.utils import secure_filename
 
 
@@ -131,6 +132,15 @@ def verify_resume():
                  'project': [], 
                  'contributor': [], 
                  'award': []}
+    
+    # 요약 항목 딕셔너리 초기화
+    ext2.summ_text = {'detailtask': [], 
+                     'perf': [],
+                     'switjob': [],
+                     'pr_career': []}
+
+    # 요약 결과 딕셔너리 초기화
+    ext2.summ_res = {'text': []}
 
     # 검증 버튼 클릭 시
     if 'verify' in request.form['action']:
@@ -166,11 +176,21 @@ def verify_resume():
             except Exception as e:
                 flash("검증이 강제 종료되었습니다.")
                 return file_list_resume()
+            
+            try:
+                # 요약 트리거
+                summ_triger(sts.api_key)
+            
+            except Exception as e:
+                flash("요약이 강제 종료되었습니다.")
+                return file_list_resume()
 
             return render_template('view_texts.html', 
                                    files_pinfo=ext1.pinfo, 
                                    files_vres=ext2.vres, 
-                                   files_vcat=ext2.vcat, 
+                                   files_vcat=ext2.vcat,
+                                   summ_text = ext2.summ_res,
+                                   gpt_res = ext2.gpt_res, 
                                    zip=zip)
         
         # 두 개 이상 항목 체크 후 검증 클릭 시 예외처리
@@ -201,13 +221,12 @@ def ext_trigger(path1, path2):
 
 # 검증 함수를 호출하는 검증 트리거 프로시저
 def ver_trigger(webdriver_path, api_key):
-    
     # 특허 검증
-    for cnt in range(len(ext2.patent_name)):
-        pat.patent_ver(webdriver_path, 
-                       ext2.patent_name[cnt], 
-                       [ext1.names[0], ext2.patent_org[cnt]])
-    
+    # for cnt in range(len(ext2.patent_name)):
+    #     pat.patent_ver(webdriver_path, 
+    #                    ext2.patent_name[cnt], 
+    #                    [ext1.names[0], ext2.patent_org[cnt]])
+
     # 프로젝트 검증
     for cnt in range(len(ext2.proj_name)):
         proj.proj_ver(ext1.names[0], 
@@ -215,13 +234,13 @@ def ver_trigger(webdriver_path, api_key):
                        ext2.proj_org[cnt]], 
                        mode = "project", 
                        gpt_api_key=api_key)
-            
+
     # contributor 검증
     for cnt in range(len(ext2.github_repo)):
         con.contributor_ver(webdriver_path, 
                             ext2.github_repo[cnt], 
                             ext2.github_id[cnt])
-    
+
     # 수상내역 검증
     for cnt in range(len(ext2.award_name)):
         proj.proj_ver(ext2.award_name[cnt], 
@@ -229,7 +248,10 @@ def ver_trigger(webdriver_path, api_key):
                        ext2.award_team[cnt]], 
                        mode = "award", 
                        gpt_api_key=api_key)
-            
+
+def summ_triger(api_key):
+    answer = summ_t.summarize_text(ext2.summ_text,api_key)
+    ext2.summ_res['text'].append(answer)
 
 # 리스트에서 선택한 이력서, 경력기술서 삭제
 @app.route('/action/resume', methods=['POST'])

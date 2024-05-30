@@ -3,8 +3,10 @@ from tika import parser
 
 
 # 검증 항목 및 검증 결과 딕셔너리 선언 및 초기화
-global vcat
-global vres
+global vcat, vres
+global summ_text, summ_res
+global gpt_res
+
 vcat = {'patent': [],
         'project': [],
         'contributor': [],
@@ -15,6 +17,15 @@ vres = {'patent': [],
         'contributor': [],
         'award': []}
 
+summ_text = {'detailtask': [],
+             'perf': [],
+             'switjob': [],
+             'pr_career': []}
+
+summ_res = {'text': []}
+
+gpt_res = {'proj': [],
+           'award': []}
 
 def ext_career(pdf_path2):
 
@@ -236,6 +247,10 @@ def ext_career(pdf_path2):
     #else:
     #    print("매칭되는 텍스트가 없습니다.")
     if detailtask:
+        text = ''
+        for i in range(len(detailtask)):
+            text += detailtask[i]    
+        summ_text['detailtask'].append(text)
         print(detailtask)
     else:
         print("업무 내용을 찾을 수 없습니다.")
@@ -248,9 +263,13 @@ def ext_career(pdf_path2):
     #else:
     #    print("매칭되는 텍스트가 없습니다.")
     if perf:
+        text = ''
+        for i in range(len(perf)):
+            text += perf[i]
+        summ_text['perf'].append(text)
         print(perf)
     else:
-        print("업무 내용을 찾을 수 없습니다.")
+        print("업무 성과를 찾을 수 없습니다.")
 
     # 결과 출력_프로젝트명
     if proj_name:
@@ -354,14 +373,22 @@ def ext_career(pdf_path2):
     else:
         print("교육/연수를 찾을 수 없습니다.")
 
-    # 결과 출력_이직 사유
+     # 결과 출력_이직 사유
     if switjob:
+        text = ''
+        for i in range(len(switjob)):
+            text += switjob[i]
+        summ_text['switjob'].append(text)
         print(switjob)
     else:
         print("이직 사유를 찾을 수 없습니다.")
 
     # 결과 출력_자기 PR
     if pr_career:
+        text = ''
+        for i in range(len(pr_career)):
+            text += pr_career[i]
+        summ_text['pr_career'].append(text)
         print(pr_career)
     else:
         print("자기PR을 찾을 수 없습니다.")
