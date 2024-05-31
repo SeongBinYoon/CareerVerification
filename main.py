@@ -124,7 +124,12 @@ def verify_resume():
     ext1.pinfo = {'name': "", 
                   'birth': "", 
                   'address': "", 
-                  'phone': ""}
+                  'phone': "",
+                  'career': "",
+                  'edu_period': [],
+                  'edu_orgname': [],
+                  'career_period': [],
+                  'career_orgname': []}
     
     # 검증 항목 딕셔너리 초기화
     ext2.vcat = {'patent': [],
@@ -146,6 +151,9 @@ def verify_resume():
 
     # 요약 결과 딕셔너리 초기화
     ext2.summ_res = {'text': []}
+
+    ext2.gpt_res = {'proj': [],
+                    'award': []}
 
     # 검증 버튼 클릭 시
     if 'verify' in request.form['action']:
@@ -227,10 +235,10 @@ def ext_trigger(path1, path2):
 # 검증 함수를 호출하는 검증 트리거 프로시저
 def ver_trigger(webdriver_path, api_key):
     # 특허 검증
-    # for cnt in range(len(ext2.patent_name)):
-    #     pat.patent_ver(webdriver_path, 
-    #                    ext2.patent_name[cnt], 
-    #                    [ext1.names[0], ext2.patent_org[cnt]])
+    for cnt in range(len(ext2.patent_name)):
+        pat.patent_ver(webdriver_path, 
+                       ext2.patent_name[cnt], 
+                       [ext1.names[0], ext2.patent_org[cnt]])
 
     # 프로젝트 검증
     for cnt in range(len(ext2.proj_name)):

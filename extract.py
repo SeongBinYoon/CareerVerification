@@ -7,12 +7,21 @@ global pinfo
 pinfo = {'name': "",
          'birth': "",
          'address': "",
-         'phone': ""}
+         'phone': "",
+         'career': "",
+         'edu_period': [],
+         'edu_orgname': [],
+         'career_period': [],
+         'career_orgname': []}
 
 def ext_resume(pdf_path1):
 
     ##### 전역 변수 #####
     global names
+    global edu_period
+    global edu_orgname
+    global career_period
+    global career_orgname
     
     # pdf 파일 경로 및 텍스트 추출
     text_all = parser.from_file(pdf_path1)['content']
@@ -131,12 +140,16 @@ def ext_resume(pdf_path1):
     
     # 결과 출력_학력_기간
     if edu_period:
+        for i in range(len(edu_period)):
+            pinfo['edu_period'].append(edu_period[i])
         print(edu_period)
     else:
         print("학력_기간을 찾을 수 없습니다.")
 
     # 결과 출력_학력_학교명
     if edu_orgname:
+        for i in range(len(edu_orgname)):
+            pinfo['edu_orgname'].append(edu_orgname[i])
         print(edu_orgname)
     else:
         print("학력_학교명을 찾을 수 없습니다.")
@@ -149,12 +162,16 @@ def ext_resume(pdf_path1):
 
     # 결과 출력_경력_기간
     if career_period:
+        for i in range(len(career_period)):
+            pinfo['career_period'].append(career_period[i])
         print(career_period)
     else:
         print("경력_기간을 찾을 수 없습니다.")
 
     # 결과 출력_경력_회사명
     if career_orgname:
+        for i in range(len(career_orgname)):
+            pinfo['career_orgname'].append(career_orgname[i])
         print(career_orgname)
     else:
         print("경력_회사명을 찾을 수 없습니다.")

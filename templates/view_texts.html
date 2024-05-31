@@ -100,42 +100,20 @@
                                         {% endfor %}
                                         <br>
 
-                                        <!-- 수상 내역 검증 결과 -->
-                                        <h3>=====수상 내역 검증 결과=====</h3>
-                                        <!-- {% for awd in files_vres['award'] %} -->
-                                        <!-- <p>결과: {{awd}}</p> -->
-                                        <!-- {% endfor %} -->
-                                        {% for awd, vawd in zip(files_vcat['award'], files_vres['award']) %}
-                                        <b>{{awd}}</b>
-                                        <p>결과: {{vawd}}</p>
-                                        {% if gpt_res['award'] %}
-                                        <p><b>gpt 검증 의견:</b> {{ gpt_res['award'] }}</p>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </section>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-
-
-        <!-- Footer -->
-        <footer id="footer">
-
-            <a>한양대학교 EIRCA 컴퓨터학부 안도형 윤성빈 한정우 ICT융합학부 손민지</a>
-            <br>
-            <a>문의 hynium2024@gmail.com</a>
-            <br>
-            <a>@hynium2024</a>
-
-        </footer>
+            <!-- 수상 내역 검증 결과 -->
+            <h3>=====수상 내역 검증 결과=====</h3>
+            <!-- {% for awd in files_vres['award'] %} -->
+            <!-- <p>결과: {{awd}}</p> -->
+            <!-- {% endfor %} -->
+            {% for awd, vawd in zip(files_vcat['award'], files_vres['award']) %}
+            <b>{{awd}}</b>
+            <p>결과: {{vawd}}</p>
+            {% if gpt_res['award'] %}
+                <p><b>gpt 검증 의견:</b> {{ gpt_res['award'] }}</p>
+            {% endif %}
+            {% endfor %}
+             
+        </section>
     </div>
 </body>
 
