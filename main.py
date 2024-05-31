@@ -44,12 +44,17 @@ def upload_file():
 @app.route('/results')
 def show_results():
 
-    return render_template('view_texts.html', 
+    try:
+        return render_template('view_texts.html', 
                                    files_pinfo=ext1.pinfo, 
                                    files_vres=ext2.vres, 
                                    files_vcat=ext2.vcat,
+                                   summ_text = ext2.summ_res,
+                                   gpt_res = ext2.gpt_res, 
                                    zip=zip)
-
+    except:
+        flash("검증할 파일을 먼저 선택하세요.")
+        return file_list_resume()
 
 # 이력서 및 경력기술서 리스트 보여줌: main menu - 문서 리스트 및 검증
 @app.route('/files/resume')

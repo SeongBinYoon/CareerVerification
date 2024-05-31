@@ -1,137 +1,86 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+    TXT by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head>
-    <title>Resume File List</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: left;
-        }
-        nav {
-            background-color: #444;
-            padding: 17px; 
-            text-align: center;
-            /* margin-bottom: 0;  */
-        }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0; 
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 10px;
-        }
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        div {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 0; 
-        }
-        section {
-            margin-top: 10px; /* 위쪽 여백 추가 */
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 1px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        table {
-            width: 1200px;
-            border-collapse: collapse;
-            margin-bottom: 100px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tfoot {
-            text-align: right; 
-        }
-        tfoot button {
-            margin-left: 10px; 
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>경력직 이력서 검증</h1>
-        <p>© 2024 HYNIUM</p>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="/home">홈</a></li>
-            <li><a href="/upload">파일 업로드</a></li>
-            <li><a href="/files/resume">문서 리스트 및 검증</a></li>
-            <li><a href="/results">검증 결과</a></li>
-        </ul>
-    </nav>
-    <!-- 팝업창 -->
-    {%with messages = get_flashed_messages()%}
-    {%if messages %}
-      <script type="text/javascript">
-        alert("{{messages[-1]}}");
-      </script>
-      {%endif%}
-    {%endwith%}
 
-    <div role="main">
-        <form action="/action/resume" method="post">
+<head>
+    <title>TXT by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body class="homepage is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div>
+                <div>
+                    <h1><a href="home.html" id="logo"></a></h1>
+                    <img src="../static/images/logo.png" alt="Logo">
+                </div>
+            </div>
+        </header>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li class="current"><a href="/home">Home</a></li>
+                <li><a href="#how-to-use">HOW TO USE</a></li>
+                <li><a href="#about-us">ABOUT US</a></li>
+                <li><a href="/upload">파일 업로드</a></li>
+                <li><a href="/files/resume">문서 리스트 및 검증</a></li>
+                <li><a href="/results">검증 결과</a></li>
+            </ul>
+        </nav>
+
+        <!-- 팝업창 -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <script type="text/javascript">
+            alert("{{ messages[-1] }}");
+        </script>
+        {% endif %}
+        {% endwith %}
+
+        <up_div role="main">
             <h2>지원자 ID | 이력서 리스트 | 경력기술서 리스트</h2>
             <h3>하나의 항목만 체크해주세요. 두 개 이상 체크는 불가합니다.</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>선택</th>
-                        <th>지원자 ID</th>
-                        <th>이력서</th>
-                        <th>경력기술서</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for file in files %}
-                    <tr>
-                        <td><input type="checkbox" name="file_ids" value="{{ file[0] }}"></td>
-                        <td>{{ file[0] }}</td>
-                        <td>{{ file[1] }}</td>
-                        <td>{{ file[2] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            <button type="submit" name="action" value="verify">검증</button>
-                            <button type="submit" name="action" value="delete">삭제</button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </form>
+            <div class="table-wrapper">
+                <form action="/action/resume" method="post">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>선택</th>
+                                <th>지원자 ID</th>
+                                <th>이력서</th>
+                                <th>경력기술서</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for file in files %}
+                            <tr>
+                                <td><input type="checkbox" name="file_ids" value="{{ file[0] }}"></td>
+                                <td>{{ file[0] }}</td>
+                                <td>{{ file[1] }}</td>
+                                <td>{{ file[2] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="fixed-buttons">
+                        <button type="submit" name="action" value="verify">검증</button>
+                        <button type="submit" name="action" value="delete">삭제</button>
+                    </div>
+                </form>
+            </div>
+        </up_div>
+
     </div>
 </body>
+
 </html>
