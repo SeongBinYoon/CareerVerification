@@ -75,22 +75,35 @@
             <h2>검증 결과</h2>
             
             <!-- 개인정보 -->
-            <h3>=====개인 정보=====</h3>
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">인적 사항</h3>
             <p>성명: {{files_pinfo['name']}} </p>
             <p>생년월일: {{files_pinfo['birth']}} </p>
             <p>주소: {{files_pinfo['address']}} </p>
             <p>연락처: {{files_pinfo['phone']}} </p>
             <br>
 
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">학력 사항</h3>
+            {% for eper,eorg in zip(files_pinfo['edu_period'], files_pinfo['edu_orgname']) %}
+            <!-- <p>기간: {{files_pinfo['edu_period']}} 기관명: {{files_pinfo['edu_orgname']}} </p> -->
+            <p>기간 : {{eper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기관명 : {{eorg}}</p>
+            {% endfor %}
+            <br>
+
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">경력 사항</h3>
+            {% for cper, corg in zip(files_pinfo['career_period'], files_pinfo['career_orgname']) %}
+            <p>기간 : {{cper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기관명 : {{corg}}</p>
+            {% endfor %}
+            <br>
+
             <!-- 요약(모델) -->
-            <h3>=====문서 요약=====</h3>
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">문서 요약</h3>
             {% for text in summ_text['text'] %}
             <p>{{text}}</p>
             {% endfor %}
             <br>
 
             <!-- 특허 검증 결과 -->
-            <h3>=====특허 검증 결과======</h3>
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">특허 검증 결과</h3>
             {% for pat, vpat in zip(files_vcat['patent'], files_vres['patent']) %}
             <b>{{pat}}</b>
             <p>결과: {{vpat}}</p>
@@ -98,7 +111,7 @@
             <br>
 
             <!-- 프로젝트 검증 결과 -->
-            <h3>=====프로젝트 검증 결과=====</h3>
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">프로젝트 검증 결과</h3>
             <!-- {% for proj in files_vres['project'] %} -->
             <!-- <p>결과: {{proj}}</p> -->
             <!-- {% endfor %} -->
@@ -113,7 +126,7 @@
             <br>
 
             <!-- contributor 검증 결과 -->
-            <h3>=====Contributor (프로젝트 기여도) 검증 결과=====</h3>
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">Contributor (프로젝트 기여도) 검증 결과</h3>
             <!-- {% for con in files_vres['contributor'] %} -->
             <!-- <p>결과: {{con}}</p> -->
             <!-- {% endfor %} -->
@@ -125,7 +138,7 @@
             <br>
 
             <!-- 수상 내역 검증 결과 -->
-            <h3>=====수상 내역 검증 결과=====</h3>
+            <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">수상 내역 검증 결과</h3>
             <!-- {% for awd in files_vres['award'] %} -->
             <!-- <p>결과: {{awd}}</p> -->
             <!-- {% endfor %} -->
