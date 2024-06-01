@@ -2485,7 +2485,7 @@ input::-moz-focus-inner {
 
 	#banner {
 		position: relative;
-		background-image: url("../images/logo.png"), url("static/images/logo.png"), url("static/images/logo.png");
+		background-image: url("../images/home.jpg"), url("static/images/logo.png"), url("static/images/logo.png");
 		background-position: top left, top left, center center;
 		background-repeat: repeat, repeat, no-repeat;
 		background-size: auto, auto, cover;
@@ -3125,7 +3125,7 @@ input::-moz-focus-inner {
     }
     
     .table-wrapper {
-        max-height: 400px; /* Adjust the height as needed */
+        max-height: 500px; /* Adjust the height as needed */
         overflow-y: auto;
     }
     .button-group {
@@ -3146,4 +3146,32 @@ input::-moz-focus-inner {
         /* background: #fff; Background color */
         text-align: right;
         
+    }
+
+    .fixed-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: white;
+        text-align: center;
+        padding: 1em 0 0.5em 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000; /* Ensure the banner is above other content */
+    }
+
+    /* 로고 이미지 스타일링 */
+    .fixed-header img {
+    height: 85px; /* 이미지 높이 조정 */
+    }
+
+    .row-view {
+        display: flex;
+        justify-content: center;
+    }
+    .main-content {
+        width: 70%;
+        padding-left: 30em; /* 왼쪽 패딩 추가 */
+    }
+    .section-title {
+        text-align: center;
     }
