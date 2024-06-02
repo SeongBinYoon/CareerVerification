@@ -43,23 +43,16 @@ def upload_file():
 # main menu - 검증 결과
 @app.route('/results')
 def show_results():
-    try:
-        # Check if pinfo['name'] is empty
-        if not ext1.pinfo.get('name'):
-            return render_template('alternative_view.html')  # Render an alternative HTML file if name is empty
-        
-        # If pinfo['name'] is not empty, render the original HTML file
-        return render_template('view_texts.html', 
+
+    return render_template('view_texts.html', 
                                files_pinfo=ext1.pinfo, 
                                files_vres=ext2.vres, 
                                files_vcat=ext2.vcat,
                                summ_text=ext2.summ_res,
                                gpt_res=ext2.gpt_res, 
                                zip=zip)
-    except Exception as e:
-        flash("검증할 파일을 먼저 선택하세요.")
-        return file_list_resume()
-    
+
+
 # 이력서 및 경력기술서 리스트 보여줌: main menu - 문서 리스트 및 검증
 @app.route('/files/resume')
 def file_list_resume():
@@ -123,7 +116,7 @@ def verify_resume():
     global path_resume
     global path_career
     file_ids = request.form.getlist('file_ids')
-    
+
     # 검증 버튼 클릭 시
     if 'verify' in request.form['action']:
         # file_ids가 존재하고, 그 크기가 1(하나의 항목만 체크)인 경우 예외처리
@@ -139,19 +132,19 @@ def verify_resume():
                         'edu_orgname': [],
                         'career_period': [],
                         'career_orgname': []}
-    
+            
             # 검증 항목 딕셔너리 초기화
             ext2.vcat = {'patent': [],
                         'project': [],
                         'contributor': [],
                         'award': []}
-    
+            
             # 검증 결과 딕셔너리 초기화
             ext2.vres = {'patent': [], 
                         'project': [], 
                         'contributor': [], 
                         'award': []}
-    
+            
             # 요약 항목 딕셔너리 초기화
             ext2.summ_text = {'detailtask': [], 
                             'perf': [],
@@ -161,10 +154,9 @@ def verify_resume():
             # 요약 결과 딕셔너리 초기화
             ext2.summ_res = {'text': []}
 
-            # 프로젝트/수상내역 gpt 검증 결과 초기화
             ext2.gpt_res = {'proj': [],
                             'award': []}
-
+            
             conn = sts.get_db()
             cursor = conn.cursor()
             query = "SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = " + file_ids[0]

@@ -43,82 +43,87 @@
 
             </ul>
         </nav>
-        <div class="row aln-center">
-            <div class="row">
+        <div role="main">
+            <section style="max-width: 800px; margin: 0 auto;">
+                <!-- 검증 결과 출력 -->
+                <h2 style="text-align: center;">검증 결과</h2>
         
-                <div>
+                <!-- 개인정보 -->
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">인적 사항</h3>
+                <p>성명: {{files_pinfo['name']}} </p>
+                <p>생년월일: {{files_pinfo['birth']}} </p>
+                <p>주소: {{files_pinfo['address']}} </p>
+                <p>연락처: {{files_pinfo['phone']}} </p>
+                <br>
         
-                    <div role="main" class="main-content">
-                        <section class="major">
-                            <div class="row aln-center">
-                                <div class="row-view">
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">학력 사항</h3>
+                {% for eper,eorg in zip(files_pinfo['edu_period'], files_pinfo['edu_orgname']) %}
+                <p>기간 : {{eper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기관명 : {{eorg}}</p>
+                {% endfor %}
+                <br>
         
-                                    <div>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <!-- 검증 결과 출력 -->
-                                        <h2 class="section-title">검증 결과</h2>
-                                        <br>
-                                        <!-- 개인정보 -->
-                                        <h3 class="section-title">====== 개인 정보 ======</h3>
-                                        <p>성명: {{files_pinfo['name']}} </p>
-                                        <p>생년월일: {{files_pinfo['birth']}} </p>
-                                        <p>주소: {{files_pinfo['address']}} </p>
-                                        <p>연락처: {{files_pinfo['phone']}} </p>
-                                        <br>
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">경력 사항</h3>
+                {% for cper, corg in zip(files_pinfo['career_period'], files_pinfo['career_orgname']) %}
+                <p>기간 : {{cper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기관명 : {{corg}}</p>
+                {% endfor %}
+                <br>
         
-                                        <!-- 요약(모델) -->
-                                        <h3 class="section-title">====== 문서 요약 ======</h3>
-                                        {% for text in summ_text['text'] %}
-                                        <p>{{text}}</p>
-                                        {% endfor %}
-                                        <br>
+                <!-- 요약(모델) -->
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">문서 요약</h3>
+                {% for text in summ_text['text'] %}
+                <p>{{text}}</p>
+                {% endfor %}
+                <br>
         
-                                        <!-- 특허 검증 결과 -->
-                                        <h3 class="section-title">====== 특허 검증 결과 ======</h3>
-                                        {% for pat, vpat in zip(files_vcat['patent'], files_vres['patent']) %}
-                                        <b>{{pat}}</b>
-                                        <p>결과: {{vpat}}</p>
-                                        {% endfor %}
-                                        <br>
+                <!-- 특허 검증 결과 -->
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">특허 검증 결과</h3>
+                {% for pat, vpat in zip(files_vcat['patent'], files_vres['patent']) %}
+                <b>{{pat}}</b>
+                <p>결과: {{vpat}}</p>
+                {% endfor %}
+                <br>
         
-                                        <!-- 프로젝트 검증 결과 -->
-                                        <h3 class="section-title">====== 프로젝트 검증 결과 ======</h3>
-                                        {% for proj, vproj in zip(files_vcat['project'], files_vres['project']) %}
-                                        <b>{{proj}}</b>
-                                        <p>결과: {{vproj}}</p>
-                                        {% if gpt_res['proj'] %}
-                                        <p><b>gpt 검증 의견:</b> {{ gpt_res['proj'] }}</p>
-                                        {% endif %}
-                                        {% endfor %}
-                                        <br>
+                <!-- 프로젝트 검증 결과 -->
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">프로젝트 검증 결과</h3>
+                {% for proj, vproj in zip(files_vcat['project'], files_vres['project']) %}
+                <b>{{proj}}</b>
+                <p>결과: {{vproj}}</p>
+                {% if gpt_res['proj'] %}
+                    <p><b>gpt 검증 의견:</b> {{ gpt_res['proj'] }}</p>
+                {% endif %}
+                {% endfor %}
+                <br>
         
-                                        <!-- contributor 검증 결과 -->
-                                        <h3 class="section-title">====== Contributor (프로젝트 기여도) 검증 결과 ======</h3>
-                                        {% for con, vcon in zip(files_vcat['contributor'], files_vres['contributor']) %}
-                                        <b>{{con}}</b>
-                                        <p>결과: {{vcon}}</p>
-                                        {% endfor %}
-                                        <br>
+                <!-- contributor 검증 결과 -->
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">Contributor (프로젝트 기여도) 검증 결과</h3>
+                {% for con, vcon in zip(files_vcat['contributor'], files_vres['contributor']) %}
+                <b>{{con}}</b>
+                <p>결과: {{vcon}}</p>
+                {% endfor %}
+                <br>
         
-                                        <!-- 수상 내역 검증 결과 -->
-                                        <h3 class="section-title">====== 수상 내역 검증 결과 ======</h3>
-                                        {% for awd, vawd in zip(files_vcat['award'], files_vres['award']) %}
-                                        <b>{{awd}}</b>
-                                        <p>결과: {{vawd}}</p>
-                                        {% if gpt_res['award'] %}
-                                            <p><b>gpt 검증 의견:</b> {{ gpt_res['award'] }}</p>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-            </div>
+                <!-- 수상 내역 검증 결과 -->
+                <h3 style="padding: 0.4em 1em 0.1em 0.2em; margin: 0.5em 0em; color: #000; border-bottom: 4px #000 solid; font-weight: bold;" data-ke-size="size23">수상 내역 검증 결과</h3>
+                {% for awd, vawd in zip(files_vcat['award'], files_vres['award']) %}
+                <b>{{awd}}</b>
+                <p>결과: {{vawd}}</p>
+                {% if gpt_res['award'] %}
+                    <p><b>gpt 검증 의견:</b> {{ gpt_res['award'] }}</p>
+                {% endif %}
+                {% endfor %}
+        
+            </section>
         </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <a>한양대학교 EIRCA 컴퓨터학부 안도형 윤성빈 한정우 ICT융합학부 손민지</a>
+            <br>
+            <a>문의 hynium2024@gmail.com</a>
+            <br>
+            <a>@hynium2024</a>
+        </footer>
+        
 </body>
 
 </html>

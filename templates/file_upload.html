@@ -11,9 +11,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
 </head>
-
 
 <body class="homepage is-preload">
     <div id="page-wrapper">
@@ -32,22 +30,14 @@
         <nav id="nav">
             <ul>
                 <li class="current"><a href="/home">Home</a></li>
-
                 <li><a href="../home#how-to-use">HOW TO USE</a></li>
                 <li><a href="../home#about-us">ABOUT US</a></li>
-
                 <li><a href="/upload">파일 업로드</a></li>
                 <li><a href="/files/resume">문서 리스트 및 검증</a></li>
                 <li><a href="/results">검증 결과</a></li>
-
-
             </ul>
         </nav>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+        <br><br><br><br><br>
 
         <div class="row aln-center">
             <h2>파일 업로드 (반드시 두 가지 문서를 동시에 업로드 해주세요)</h2>
@@ -59,54 +49,42 @@
 
         <div class="row aln-center">
             <div class="row">
-        
                 <div class="col-3 col-6-medium col-12-small">
-        
                     <div role="main">
                         <section class="row aln-center">
                             <h2></h2>
                             <div class="upload-container">
                                 <div class="upload-item">
-                                    <h3>이력서 업로드</h3>
+                                    <h3>파일 업로드</h3>
                                     <form action="/upload/resume" method="post" enctype="multipart/form-data">
-                                        <input type="file" name="file1" required>
-                                    </form>
-                                </div>
-                                <br>
-                                <div class="upload-item">
-                                    <h3>경력기술서 업로드</h3>
-                                    <form action="/upload/resume" method="post" enctype="multipart/form-data">
-                                        <input type="file" name="file2" required>
-
+                                        <div>
+                                            <label for="file1">이력서 업로드</label>
+                                            <input type="file" id="file1" name="file1" required>
+                                        </div>
                                         <br>
+                                        <div>
+                                            <label for="file2">경력기술서 업로드</label>
+                                            <input type="file" id="file2" name="file2" required>
+                                        </div>
                                         <br>
-                                        
                                         <input type="submit" value="파일 업로드">
                                     </form>
                                 </div>
                             </div>
                         </section>
                     </div>
-        
                 </div>
-        
             </div>
         </div>
-        
-
-
 
         <!-- Footer -->
         <footer id="footer">
-
             <a>한양대학교 EIRCA 컴퓨터학부 안도형 윤성빈 한정우 ICT융합학부 손민지</a>
             <br>
             <a>문의 hynium2024@gmail.com</a>
             <br>
             <a>@hynium2024</a>
-
         </footer>
-
     </div>
 </body>
 
