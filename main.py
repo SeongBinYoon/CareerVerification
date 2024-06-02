@@ -123,47 +123,48 @@ def verify_resume():
     global path_resume
     global path_career
     file_ids = request.form.getlist('file_ids')
-
-    # 개인 정보 딕셔너리 초기화
-    ext1.pinfo = {'name': "", 
-                  'birth': "", 
-                  'address': "", 
-                  'phone': "",
-                  'career': "",
-                  'edu_period': [],
-                  'edu_orgname': [],
-                  'career_period': [],
-                  'career_orgname': []}
     
-    # 검증 항목 딕셔너리 초기화
-    ext2.vcat = {'patent': [],
-                 'project': [],
-                 'contributor': [],
-                 'award': []}
-    
-    # 검증 결과 딕셔너리 초기화
-    ext2.vres = {'patent': [], 
-                 'project': [], 
-                 'contributor': [], 
-                 'award': []}
-    
-    # 요약 항목 딕셔너리 초기화
-    ext2.summ_text = {'detailtask': [], 
-                     'perf': [],
-                     'switjob': [],
-                     'pr_career': []}
-
-    # 요약 결과 딕셔너리 초기화
-    ext2.summ_res = {'text': []}
-
-    ext2.gpt_res = {'proj': [],
-                    'award': []}
-
     # 검증 버튼 클릭 시
     if 'verify' in request.form['action']:
         # file_ids가 존재하고, 그 크기가 1(하나의 항목만 체크)인 경우 예외처리
         if file_ids and len(file_ids) == 1:
-            
+
+            # 개인 정보 딕셔너리 초기화
+            ext1.pinfo = {'name': "", 
+                        'birth': "", 
+                        'address': "", 
+                        'phone': "",
+                        'career': "",
+                        'edu_period': [],
+                        'edu_orgname': [],
+                        'career_period': [],
+                        'career_orgname': []}
+    
+            # 검증 항목 딕셔너리 초기화
+            ext2.vcat = {'patent': [],
+                        'project': [],
+                        'contributor': [],
+                        'award': []}
+    
+            # 검증 결과 딕셔너리 초기화
+            ext2.vres = {'patent': [], 
+                        'project': [], 
+                        'contributor': [], 
+                        'award': []}
+    
+            # 요약 항목 딕셔너리 초기화
+            ext2.summ_text = {'detailtask': [], 
+                            'perf': [],
+                            'switjob': [],
+                            'pr_career': []}
+
+            # 요약 결과 딕셔너리 초기화
+            ext2.summ_res = {'text': []}
+
+            # 프로젝트/수상내역 gpt 검증 결과 초기화
+            ext2.gpt_res = {'proj': [],
+                            'award': []}
+
             conn = sts.get_db()
             cursor = conn.cursor()
             query = "SELECT resume_pdf_addr, cv_pdf_addr FROM application WHERE applicant_id = " + file_ids[0]
