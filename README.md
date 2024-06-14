@@ -39,10 +39,10 @@ Selenium, BeautifulSoup을 이용해 이력서, 경력기술서를 자동화 검
 **GPT v3.5 API를 활용한 경력기술서 핵심 요약**은 이직 사유, 자기 PR 등 경력기술서 내 파싱된 텍스트를 Query 질문으로 보내어 전달 받은 요약 텍스트를 사용자에게 보여주도록 한다.
 
 ### 구상도 (System Model)
-<img src="./img/system_model.png" width="100">
+<img src="./img/system_model.png">
 
 ### 구현 상세
-<img src="./img//detail_pipeline.png" width="100">
+<img src="./img//detail_pipeline.png">
 
 ### 구현 웹페이지
 <img src="./img//verification_screen1.png">
