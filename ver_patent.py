@@ -1,7 +1,7 @@
 from selenium import webdriver # 동적페이지(js등)를 처리하기 위한 크롤링 라이브러리
 from bs4 import BeautifulSoup
 import time
-import extract2 as ext2
+import ext_career as ext2
 import settings as sts
 
 
@@ -57,5 +57,3 @@ def patent_ver(webdriver_path, keyword, verification_list):
         #print("해당 지원자의 정보가 없습니다.")
     
     print(ext2.vres) # 검증 결과 딕셔너리 확인용
-
-#patent_ver()

@@ -31,6 +31,7 @@ def ext_resume(pdf_path1):
     print(text)    # 정규표현식 수정용
 
     ##### 인적 사항 #####
+
     # '이름' 다음에 오는 한글 이름 패턴 2~4글자 찾기
     name_pat = r'이름\s*([가-힣]{2,4})'
 
@@ -48,9 +49,6 @@ def ext_resume(pdf_path1):
     # 11(-11)
     # 1(번)길 11-11
     # ㅇㅇ2길 11
-    # 도로명 주소 = 주소\s*([가-힣\s]+\s?[0-9]*\s?번?길?\s?[0-9]*\s?-?\s?[0-9]*) -> 수정 완료
-    # +상세 주소 = r'주소\s*([가-힣\s]+\s?[0-9]*\s?번?길?\s?[0-9]*\s?-?\s?[0-9]*\s?[가-힣]*\s?[가-힣]*\s?[0-9]*동?\s?[0-9]*호?)'
-    #addr_pat = r'주소\s*([가-힣\s]+\s?[0-9]*\s?번?길?\s?[0-9]*\s?-?\s?[0-9]*\s?[가-힣]*\s?[0-9]*동?\s?[0-9]*호?)'
     addr_pat = r'주소\s*([가-힣\s]+\s?[0-9]*\s?번?길?\s?[0-9]*\s?-?\s?[0-9]*\s?[가-힣]*\s?[가-힣]*\s?[0-9]*동?\s?[0-9]*호?)(?=연락처)'
 
     # 주소 추출
@@ -62,11 +60,12 @@ def ext_resume(pdf_path1):
     # 연락처 추출
     phone = re.findall(phone_pat, text)
 
+
     ##### 학력 사항 #####
+
     # 학력 추출
     edu_info_pat = r'(?<=학 력 사 항)(.*?)(?=경 력 사 항)'
     edu_info = re.search(edu_info_pat, text).group(1)
-    
     
     # 학력_기간 추출
     edu_period_pat = r'(\d{4}년 \d{1,2}월~\d{4}년 \d{1,2}월)'
@@ -82,10 +81,10 @@ def ext_resume(pdf_path1):
 
 
     ##### 경력 사항 #####
+
     # 경력 추출
     career_info_pat = r'(?<=경 력 사 항)(.*?)(?=위 기재사항이 사실임을 확인합니다)'
     career_info = re.search(career_info_pat, text).group(1)
-    
     
     # 경력_기간 추출
     career_period_pat = r'(\d{4}년 \d{1,2}월~\d{4}년 \d{1,2}월)'
@@ -100,16 +99,8 @@ def ext_resume(pdf_path1):
     #career_etc = re.findall(career_etc_pat, career_info)
 
 
-    ##### 자기 소개 #####
-    # '자기소개' 다음에 오는 문장 찾기
-    #pr_career_pat = r'자기소개\s*([가-힣\s]+)'
-    #pr_resume_pat = r"자기소개\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=위 기재사항)"
-
-    # 자기소개 추출
-    #pr_resume = re.findall(pr_resume_pat, text, re.DOTALL)
-
-
     ##### 결과 출력 #####
+    
     # 결과 출력_이름
     if names:
         pinfo['name'] = names[0]
@@ -181,12 +172,3 @@ def ext_resume(pdf_path1):
     #    print(career_etc)
     #else:
     #    print("경력_기타를 찾을 수 없습니다.")
-
-    # 결과 출력_자기소개
-    #if pr_resume:
-    #    print(pr_resume[0])
-    #else:
-    #    print("자기소개를 찾을 수 없습니다.")
-    #print(pinfo)
-
-#ext_resume()

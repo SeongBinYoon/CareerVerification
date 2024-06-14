@@ -1,10 +1,10 @@
 import requests
-import extract2 as ext2
+import ext_career as ext2
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
-from gpt_verification import verify_html_usingGPT
+from ver_project_gpt import verify_html_usingGPT
 
 
 # google 뉴스로부터 html 가져오는 함수

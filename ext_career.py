@@ -42,7 +42,6 @@ def ext_career(pdf_path2):
 
 
     text_all = parser.from_file(pdf_path2)['content']
-    #print(text_all)
     text = re.sub(r'[\n(),]', '', text_all)
     print(text) # 정규표현식 수정용
 
@@ -90,14 +89,10 @@ def ext_career(pdf_path2):
     maintask = re.findall(maintask_pat, text)
 
     # 업무 내용 추출
-    #detailtask_pat = re.compile(r'업무 내용(.*?)■', re.DOTALL)
-    #detailtask = detailtask_pat.search(text)
     detailtask_pat = r'업무 내용\s*(.*?)\s*업무 성과'
     detailtask = re.findall(detailtask_pat, text)
 
     #업무 성과 추출
-    #perf_pat = re.compile(r'업무 성과(.*?)■', re.DOTALL)
-    #perf = perf_pat.search(text)
     perf_pat = r'업무 성과\s*(.*?)\s*(?=경력[2-9]|업무 관련 사항)'
     perf = re.findall(perf_pat, text)
 
@@ -121,13 +116,10 @@ def ext_career(pdf_path2):
     github_id = re.findall(github_id_pat, text)
 
     # Github Repo URL 추출
-    #github_repo_pat = r'(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?'
-    #github_repo = re.search(github_repo_pat, text)
     github_repo_pat = r"Github Repository URL\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s\s■)"
     github_repo = re.findall(github_repo_pat, text)
 
 
-    
     # 수상 내역 추출
     # 상훈명 추출
     award_name_pat = r"상훈명\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)(?=\s수여기관)"
@@ -174,17 +166,20 @@ def ext_career(pdf_path2):
     edu = re.findall(edu_pat, text)
 
     ##### 이직 사유 #####
+
     # 이직 사유 추출
     switjob_pat = r"이직사유\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)\s\s■"
     switjob = re.findall(switjob_pat, text)
 
     ##### 자기 PR #####
+
     # 자기 PR 추출
     pr_career_pat = r"자기PR\s*([가-힣a-zA-Z0-9\s\(\)\[\]㈜{}.,!?;:\"'`\-_+=@#$%^&*~<>\/\\|]*)"
     pr_career = re.findall(pr_career_pat, text, re.DOTALL)
 
 
     ##### 결과 출력 #####
+    
     # 결과 출력_회사명
     if comp_name:
         print(comp_name) 
@@ -240,12 +235,6 @@ def ext_career(pdf_path2):
         print("주요 업무를 찾을 수 없습니다.")
 
     # 결과 출력_업무 내용
-    #if detailtask:
-    #    extracted_text = detailtask.group(1).strip()
-    #    formatted_text = re.sub(r'(\d+)\.', r'\n\1.', extracted_text)
-    #    print("업무 내용:" + formatted_text)
-    #else:
-    #    print("매칭되는 텍스트가 없습니다.")
     if detailtask:
         text = ''
         for i in range(len(detailtask)):
@@ -256,12 +245,6 @@ def ext_career(pdf_path2):
         print("업무 내용을 찾을 수 없습니다.")
 
     # 결과 출력_업무 성과
-    #if perf:
-    #    extracted_text = perf.group(1).strip()
-    #    formatted_text = re.sub(r'(\d+)\.', r'\n\1.', extracted_text)
-    #    print("업무 성과:" + formatted_text)
-    #else:
-    #    print("매칭되는 텍스트가 없습니다.")
     if perf:
         text = ''
         for i in range(len(perf)):

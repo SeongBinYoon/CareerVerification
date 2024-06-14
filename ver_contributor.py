@@ -1,7 +1,7 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
-import extract2 as ext2
+import ext_career as ext2
 import requests
 
 def contributor_ver(webdriver_path, github_url, id):
