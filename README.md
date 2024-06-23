@@ -1,6 +1,6 @@
 # CareerNium: NLP를 이용한 경력직 이력서 검증 서비스
 ## 2023-2024 한양대학교 ERICA 소프트웨어융합대학 산학캡스톤 프로젝트
-***
+
 
 ### 팀명
 하이니움 (HYnium)
@@ -57,5 +57,6 @@ Python, Flask, MySQL, GCP(Google Cloud Platform), BeautifulSoup, Selenium, GPT-v
 3. 실행 후 자동 생성되는 uploads 디렉토리는 업로드된 문서를 저장하는 공간이며, 자동 커밋되지 않는다.
 4. 각 모듈에 필요한 라이브러리 및 프레임워크는 pip 명령어로 설치해야 한다.
 5. main.py 파일을 실행 또는 $python main.py 명령어로 실행한다.
+
 
 Copyright © 2024 All Rights Reserved by SeongbinYoon, MinjiSon, DohyungAn, JeonguHan
