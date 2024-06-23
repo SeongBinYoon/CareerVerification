@@ -5,22 +5,22 @@
 import pymysql
 
 # 이력서 추출 파일
-import ext_resume as ext1
+import source.ext_resume as ext1
 
 # 경력기술서 추출 파일
-import ext_career as ext2
+import source.ext_career as ext2
 
 # 특허 검증 파일
-import ver_patent as pat
+import source.ver_patent as pat
 
 # contributor 검증 파일
-import ver_contributor as con
+import source.ver_contributor as con
 
 # 프로젝트 검증 파일
-import ver_project_sc as proj
+import source.ver_project_sc as proj
 
 # 수상내역 검증 파일
-import ver_project_gpt as gpt
+import source.ver_project_gpt as gpt
 
 ############################# 이 부분은 commit 주의 ###############################
 ##### selenium/추출 경로/api key #####

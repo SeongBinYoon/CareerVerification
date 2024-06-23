@@ -1,5 +1,5 @@
 import openai
-import ext_career as ext2
+import source.ext_career as ext2
 
 def summarize_text(text_dict, api_key):
     # for key, value in text_dict.items():

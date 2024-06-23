@@ -6,9 +6,9 @@
 하이니움 (HYnium)
 
 ### 구성원
-팀장: 컴퓨터학부 윤성빈
-팀원1: 컴퓨터학부 안도형
-팀원2: 컴퓨터학부 한정우
+팀장: 컴퓨터학부 윤성빈  
+팀원1: 컴퓨터학부 안도형  
+팀원2: 컴퓨터학부 한정우  
 팀원3: ICT융합학부 손민지
 
 ### 개요 및 목적
@@ -50,3 +50,12 @@ Selenium, BeautifulSoup을 이용해 이력서, 경력기술서를 자동화 검
 
 ### 사용 스택
 Python, Flask, MySQL, GCP(Google Cloud Platform), BeautifulSoup, Selenium, GPT-v3.5
+
+### 실행 방법
+1. get_db() 내 작성된 Database 정보, webdriver_path, api_key, configkey 가 작성된 settings.py는 codes 디렉토리 내에 위치해야 한다.
+2. 설치된 크롬 응용프로그램 버전에 맞는 chromedriver.exe 실행파일은 초기 디렉토리에 위치해야 한다.
+3. 실행 후 자동 생성되는 uploads 디렉토리는 업로드된 문서를 저장하는 공간이며, 자동 커밋되지 않는다.
+4. 각 모듈에 필요한 라이브러리 및 프레임워크는 pip 명령어로 설치해야 한다.
+5. main.py 파일을 실행 또는 $python main.py 명령어로 실행한다.
+
+Copyright © 2024 All Rights Reserved by SeongbinYoon, MinjiSon, DohyungAn, JeonguHan

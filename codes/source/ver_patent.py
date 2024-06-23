@@ -1,9 +1,7 @@
 from selenium import webdriver # 동적페이지(js등)를 처리하기 위한 크롤링 라이브러리
 from bs4 import BeautifulSoup
 import time
-import ext_career as ext2
-import settings as sts
-
+import source.ext_career as ext2
 
 def patent_ver(webdriver_path, keyword, verification_list):
 

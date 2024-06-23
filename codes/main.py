@@ -1,12 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
 import os
-import ext_resume as ext1
-import ext_career as ext2
+import source.ext_resume as ext1
+import source.ext_career as ext2
 import settings as sts
-import ver_patent as pat
-import ver_contributor as con
-import ver_project_sc as proj
-import sum_career as summ_t
+import source.ver_patent as pat
+import source.ver_contributor as con
+import source.ver_project_sc as proj
+import source.sum_career as summ_t
 #from werkzeug.utils import secure_filename
 
 
